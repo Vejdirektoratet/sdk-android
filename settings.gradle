@@ -1,0 +1,2 @@
+include ':app', ':vejdirektoratetsdk'
+rootProject.name='VejdirektoratetSDKExample'
