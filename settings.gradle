@@ -1,2 +1,2 @@
-include ':app', ':vejdirektoratetsdk'
+include ':Examples', ':VejdirektoratetSDK'
 rootProject.name='VejdirektoratetSDKExample'
