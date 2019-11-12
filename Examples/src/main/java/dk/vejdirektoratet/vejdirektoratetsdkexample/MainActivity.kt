@@ -17,7 +17,7 @@ import org.json.JSONArray
 
 class MainActivity : AppCompatActivity() {
 
-    private val apiKey: String = "" // Add VD apiKey
+    private val apiKey: String = BuildConfig.VD_API_KEY // Add VD apiKey
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
