@@ -8,6 +8,8 @@
 
 package dk.vejdirektoratet.vejdirektoratetsdk.feed
 
-class Feed {
+internal class Feed {
+
+    fun request(){}
 
 }
