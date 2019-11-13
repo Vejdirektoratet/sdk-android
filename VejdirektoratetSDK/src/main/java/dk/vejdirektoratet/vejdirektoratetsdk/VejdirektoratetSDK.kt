@@ -9,8 +9,8 @@
 package dk.vejdirektoratet.vejdirektoratetsdk
 
 import com.google.android.gms.maps.model.LatLngBounds
-import dk.vejdirektoratet.vejdirektoratetsdk.http.HTTP
-import org.json.JSONArray
+import dk.vejdirektoratet.vejdirektoratetsdk.feed.Feed
+import dk.vejdirektoratet.vejdirektoratetsdk.utils.Utils
 
 enum class EntityType(val value: String) {
     TRAFFIC("traffic"),
@@ -28,18 +28,32 @@ enum class ViewType {
     UNKNOWN
 }
 
-class Bounds(val southWest: LatLng, val northEast: LatLng)
+data class LatLng(val lat: Double, val lng: Double)
 
-class LatLng(val lat: Double, val lng: Double)
+data class Bounds(val southWest: LatLng, val northEast: LatLng)
+
+fun Bounds.asLatLngBounds(): LatLngBounds {
+    return Utils.boundsToLatLngBounds(this)
+}
+
+fun MutableList<Bounds>.asLatLngBounds(): MutableList<LatLngBounds> {
+    val latlngBounds: MutableList<LatLngBounds> = mutableListOf()
+
+    for (i in 0 until this.size) {
+        latlngBounds.add(Utils.boundsToLatLngBounds(this[i]))
+    }
+
+    return latlngBounds
+}
 
 class VejdirektoratetSDK {
 
     companion object {
-        fun request(entityTypes: List<EntityType>, region: Bounds?, zoom: Int? = Int.MAX_VALUE, viewType: ViewType, apiKey: String, onCompletion: (result: JSONArray) -> Unit) {
-            HTTP().request(entityTypes, region, zoom, viewType, apiKey, onCompletion)
+        fun request(entityTypes: List<EntityType>, region: Bounds?, zoom: Int? = Int.MAX_VALUE, viewType: ViewType, apiKey: String, onCompletion: (result: Feed.Result) -> Unit) {
+            Feed().request(entityTypes, region, zoom, viewType, apiKey, onCompletion)
         }
 
-        fun request(entityTypes: List<EntityType>, region: LatLngBounds, zoom: Int? = Int.MAX_VALUE, viewType: ViewType, apiKey: String, onCompletion: (result: JSONArray) -> Unit) {
+        fun request(entityTypes: List<EntityType>, region: LatLngBounds, zoom: Int? = Int.MAX_VALUE, viewType: ViewType, apiKey: String, onCompletion: (result: Feed.Result) -> Unit) {
             val southWest = LatLng(region.southwest.latitude, region.southwest.longitude)
             val northEast = LatLng(region.northeast.latitude, region.northeast.longitude)
             request(entityTypes, Bounds(southWest, northEast), zoom, viewType, apiKey, onCompletion)

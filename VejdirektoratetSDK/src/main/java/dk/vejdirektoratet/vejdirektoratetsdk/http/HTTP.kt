@@ -9,15 +9,20 @@
 package dk.vejdirektoratet.vejdirektoratetsdk.http
 
 import com.github.kittinunf.fuel.httpGet
-import com.github.kittinunf.result.Result
+import com.github.kittinunf.result.Result as FuelResult
 import dk.vejdirektoratet.vejdirektoratetsdk.Bounds
 import dk.vejdirektoratet.vejdirektoratetsdk.EntityType
 import dk.vejdirektoratet.vejdirektoratetsdk.ViewType
 import org.json.JSONArray
 import org.json.JSONObject
 
-
 internal class HTTP {
+
+    sealed class Result {
+        class Success(val data: JSONArray): Result()
+        open class Error(open val exception: Exception): Result()
+        class HttpError(override val exception: Exception, val statusCode: Int): Error(exception)
+    }
 
     private val baseUrl = mapOf(
         ViewType.LIST to "https://test-vdapp.dannap.dk/api/v2/list/snapshot",
@@ -25,24 +30,24 @@ internal class HTTP {
         ViewType.GEO to ""
     )
 
-    internal fun request(entityTypes: List<EntityType>, region: Bounds?, zoom: Int?, viewType: ViewType, apiKey: String, onCompletion: (result: JSONArray) -> Unit) {
+    internal fun request(entityTypes: List<EntityType>, region: Bounds?, zoom: Int?, viewType: ViewType, apiKey: String, onCompletion: (result: Result) -> Unit) {
         val url = buildUrl(entityTypes, region, zoom, viewType, apiKey)
 
         if (url.isNotBlank()) {
             request(url, onCompletion)
         } else {
-            onCompletion(buildError("Error!", "Empty Url!"))
+            onCompletion(Result.Error(EmptyURLException("Empty Url!")))
         }
     }
 
-    private fun request(url: String, onCompletion: (result: JSONArray) -> Unit) {
-        url.httpGet().response { request, response, result ->
+    private fun request(url: String, onCompletion: (result: Result) -> Unit) {
+        url.httpGet().response { _, response, result ->
             when (result) {
-                is Result.Failure -> {
-                    onCompletion(buildError("Error!", result.error.localizedMessage))
+                is FuelResult.Failure -> {
+                    onCompletion(Result.HttpError(result.error, response.statusCode))
                 }
-                is Result.Success -> {
-                    onCompletion(JSONArray(String(result.value)))
+                is FuelResult.Success -> {
+                    onCompletion(Result.Success(JSONArray(String(result.value))))
                 }
             }
         }
@@ -60,7 +65,7 @@ internal class HTTP {
             url = "$url&sw=${region.southWest.lat},${region.southWest.lng}&ne=${region.northEast.lat},${region.northEast.lng}"
         }
 
-        if (zoom != null && viewType == ViewType.MAP) {
+        if (zoom != Int.MAX_VALUE && viewType == ViewType.MAP) {
             url = "$url&zoom=$zoom"
         }
 
@@ -77,4 +82,6 @@ internal class HTTP {
         errorArray.put(errorObject)
         return errorArray
     }
+
+    private class EmptyURLException(message: String): Exception(message)
 }
