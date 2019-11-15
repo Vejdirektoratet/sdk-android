@@ -11,10 +11,10 @@ package dk.vejdirektoratet.vejdirektoratetsdk.http
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.result.Result as FuelResult
 import dk.vejdirektoratet.vejdirektoratetsdk.Bounds
+import dk.vejdirektoratet.vejdirektoratetsdk.Constants
 import dk.vejdirektoratet.vejdirektoratetsdk.EntityType
 import dk.vejdirektoratet.vejdirektoratetsdk.ViewType
 import org.json.JSONArray
-import org.json.JSONObject
 
 internal class HTTP {
 
@@ -25,9 +25,9 @@ internal class HTTP {
     }
 
     private val baseUrl = mapOf(
-        ViewType.LIST to "https://test-vdapp.dannap.dk/api/v2/list/snapshot",
-        ViewType.MAP to "https://test-vdapp.dannap.dk/api/v2/map/snapshot",
-        ViewType.GEO to ""
+        ViewType.LIST to Constants.BASE_URL_LIST,
+        ViewType.MAP to Constants.BASE_URL_MAP,
+        ViewType.GEO to Constants.BASE_URL_GEO
     )
 
     internal fun request(entityTypes: List<EntityType>, region: Bounds?, zoom: Int?, viewType: ViewType, apiKey: String, onCompletion: (result: Result) -> Unit) {
@@ -72,15 +72,6 @@ internal class HTTP {
         url = "$url&api_key=$apiKey"
 
         return url
-    }
-
-    private fun buildError(header: String, message: String): JSONArray {
-        val errorArray = JSONArray()
-        val errorObject = JSONObject()
-        errorObject.put("heading", header)
-        errorObject.put("description", message)
-        errorArray.put(errorObject)
-        return errorArray
     }
 
     private class EmptyURLException(message: String): Exception(message)

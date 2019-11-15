@@ -8,6 +8,7 @@
 
 package dk.vejdirektoratet.vejdirektoratetsdk
 
+import com.google.android.gms.maps.model.LatLng as GoogleLatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import dk.vejdirektoratet.vejdirektoratetsdk.feed.Feed
 import dk.vejdirektoratet.vejdirektoratetsdk.utils.Utils
@@ -28,22 +29,11 @@ enum class ViewType {
     UNKNOWN
 }
 
-data class LatLng(val lat: Double, val lng: Double)
-
-data class Bounds(val southWest: LatLng, val northEast: LatLng)
-
-fun Bounds.asLatLngBounds(): LatLngBounds {
-    return Utils.boundsToLatLngBounds(this)
-}
-
-fun MutableList<Bounds>.asLatLngBounds(): MutableList<LatLngBounds> {
-    val latlngBounds: MutableList<LatLngBounds> = mutableListOf()
-
-    for (i in 0 until this.size) {
-        latlngBounds.add(Utils.boundsToLatLngBounds(this[i]))
-    }
-
-    return latlngBounds
+enum class MapType(val value: String) {
+    MARKER("MARKER"),
+    POLYLINE("POLYLINE"),
+    POLYGON("POLYGON"),
+    UNKNOWN("UNKNOWN")
 }
 
 class VejdirektoratetSDK {
@@ -59,4 +49,36 @@ class VejdirektoratetSDK {
             request(entityTypes, Bounds(southWest, northEast), zoom, viewType, apiKey, onCompletion)
         }
     }
+}
+
+data class LatLng(val lat: Double, val lng: Double)
+
+fun LatLng.asGoogleLatLng(): GoogleLatLng {
+    return Utils.latLngToGoogleLatLng(this)
+}
+
+fun MutableList<LatLng>.asGoogleLatLng(): MutableList<GoogleLatLng> {
+    val googleLatLngs: MutableList<GoogleLatLng> = mutableListOf()
+
+    for (i in 0 until this.size) {
+        googleLatLngs.add(Utils.latLngToGoogleLatLng(this[i]))
+    }
+
+    return googleLatLngs
+}
+
+data class Bounds(val southWest: LatLng, val northEast: LatLng)
+
+fun Bounds.asLatLngBounds(): LatLngBounds {
+    return Utils.boundsToLatLngBounds(this)
+}
+
+fun MutableList<Bounds>.asLatLngBounds(): MutableList<LatLngBounds> {
+    val latlngBounds: MutableList<LatLngBounds> = mutableListOf()
+
+    for (i in 0 until this.size) {
+        latlngBounds.add(Utils.boundsToLatLngBounds(this[i]))
+    }
+
+    return latlngBounds
 }

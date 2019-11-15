@@ -8,6 +8,7 @@
 
 package dk.vejdirektoratet.vejdirektoratetsdk.entity
 
+import dk.vejdirektoratet.vejdirektoratetsdk.Constants
 import org.json.JSONObject
 
-internal class UnknownEntity : BaseEntity(JSONObject("{\"entityType\": \"\",\"tag\": \"\"}"))
+internal class UnknownEntity : BaseEntity(JSONObject("{\"${Constants.ENTITY_TYPE}\": \"\",\"${Constants.TAG}\": \"\"}"))

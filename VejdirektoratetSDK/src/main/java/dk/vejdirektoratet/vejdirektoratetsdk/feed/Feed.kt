@@ -8,9 +8,8 @@
 
 package dk.vejdirektoratet.vejdirektoratetsdk.feed
 
-import dk.vejdirektoratet.vejdirektoratetsdk.Bounds
-import dk.vejdirektoratet.vejdirektoratetsdk.EntityType
-import dk.vejdirektoratet.vejdirektoratetsdk.ViewType
+import dk.vejdirektoratet.vejdirektoratetsdk.*
+import dk.vejdirektoratet.vejdirektoratetsdk.Constants
 import dk.vejdirektoratet.vejdirektoratetsdk.http.HTTP
 import dk.vejdirektoratet.vejdirektoratetsdk.entity.BaseEntity
 import dk.vejdirektoratet.vejdirektoratetsdk.entity.ListEntity
@@ -20,8 +19,8 @@ import org.json.JSONObject
 
 internal fun entityTypeFromString(entityTypeString: String): EntityType {
     return when (entityTypeString) {
-        "latextraffic" -> EntityType.TRAFFIC
-        "latexroadwork" -> EntityType.ROADWORK
+        Constants.LATEX_TRAFFIC -> EntityType.TRAFFIC
+        Constants.LATEX_ROADWORK -> EntityType.ROADWORK
         else -> EntityType.UNKNOWN
     }
 }
@@ -66,13 +65,16 @@ class Feed {
         else -> UnknownEntity()
     }
 
-    private fun mapListEntity(entity: JSONObject): BaseEntity = when(entityTypeFromString(entity.getString("entityType"))) {
+    private fun mapListEntity(entity: JSONObject): BaseEntity = when(entityTypeFromString(entity.getString(Constants.ENTITY_TYPE))) {
         EntityType.TRAFFIC -> ListEntity.Traffic.fromEntity(entity)
         EntityType.ROADWORK -> ListEntity.Roadwork.fromEntity(entity)
         else -> UnknownEntity()
     }
 
-    private fun mapMapEntity(entity: JSONObject): BaseEntity {
-        return UnknownEntity()
+    private fun mapMapEntity(entity: JSONObject): BaseEntity = when(entity.getString(Constants.TYPE)) {
+        MapType.MARKER.value -> UnknownEntity()
+        MapType.POLYLINE.value -> UnknownEntity()
+        MapType.POLYGON.value -> UnknownEntity()
+        else -> UnknownEntity()
     }
 }
