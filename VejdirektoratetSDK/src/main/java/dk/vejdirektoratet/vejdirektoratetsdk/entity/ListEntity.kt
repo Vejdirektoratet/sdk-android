@@ -10,6 +10,8 @@ package dk.vejdirektoratet.vejdirektoratetsdk.entity
 
 import dk.vejdirektoratet.vejdirektoratetsdk.Bounds
 import dk.vejdirektoratet.vejdirektoratetsdk.Constants
+import dk.vejdirektoratet.vejdirektoratetsdk.InvalidEntityException
+import dk.vejdirektoratet.vejdirektoratetsdk.VDException
 import dk.vejdirektoratet.vejdirektoratetsdk.utils.JSONUtils
 import dk.vejdirektoratet.vejdirektoratetsdk.utils.Utils
 import org.json.JSONObject
@@ -25,16 +27,20 @@ open class ListEntity(data: JSONObject): BaseEntity(data) {
 
     class Traffic(data: JSONObject): ListEntity(data) {
         companion object {
+            @Throws(VDException::class)
             fun fromEntity(data: JSONObject): Traffic {
-                return Traffic(data)
+                throw InvalidEntityException("Invalid entity! $data")
+                //return Traffic(data)
             }
         }
     }
 
     class Roadwork(data: JSONObject): ListEntity(data) {
         companion object {
+            @Throws(VDException::class)
             fun fromEntity(data: JSONObject): Roadwork {
-                return Roadwork(data)
+                throw InvalidEntityException("Invalid entity! $data")
+                //return Roadwork(data)
             }
         }
     }

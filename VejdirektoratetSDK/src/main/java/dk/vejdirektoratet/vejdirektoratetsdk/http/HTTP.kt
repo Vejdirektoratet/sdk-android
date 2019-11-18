@@ -9,11 +9,10 @@
 package dk.vejdirektoratet.vejdirektoratetsdk.http
 
 import com.github.kittinunf.fuel.httpGet
-import com.github.kittinunf.result.Result as FuelResult
-import dk.vejdirektoratet.vejdirektoratetsdk.Bounds
+import dk.vejdirektoratet.vejdirektoratetsdk.*
 import dk.vejdirektoratet.vejdirektoratetsdk.Constants
-import dk.vejdirektoratet.vejdirektoratetsdk.EntityType
-import dk.vejdirektoratet.vejdirektoratetsdk.ViewType
+import dk.vejdirektoratet.vejdirektoratetsdk.EmptyURLException
+import com.github.kittinunf.result.Result as FuelResult
 import org.json.JSONArray
 
 internal class HTTP {
@@ -73,6 +72,4 @@ internal class HTTP {
 
         return url
     }
-
-    private class EmptyURLException(message: String): Exception(message)
 }

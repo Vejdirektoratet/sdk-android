@@ -40,6 +40,8 @@ internal class Constants {
         const val BASE_URL_LIST = "${BASE_URL}list/snapshot"
         const val BASE_URL_MAP = "${BASE_URL}map/snapshot"
         const val BASE_URL_GEO = ""
+
+        const val INVALID_ENTITY_TRAFFIC = "Invalid Traffic entity!"
     }
 }
 

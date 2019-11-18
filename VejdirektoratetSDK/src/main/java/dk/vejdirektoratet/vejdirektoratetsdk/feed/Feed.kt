@@ -49,10 +49,12 @@ class Feed {
         val mappedEntities: MutableList<BaseEntity> = mutableListOf()
 
         for (i in 0 until entities.length()) {
-            val entity = mapEntity(entities.getJSONObject(i), viewType)
-
-            if (entity !is UnknownEntity) {
+            try {
+                val entity = mapEntity(entities.getJSONObject(i), viewType)
                 mappedEntities.add(entity)
+            } catch (e: VDException) {
+                // TODO Log exception before continuing!
+                continue
             }
         }
 
@@ -62,19 +64,19 @@ class Feed {
     private fun mapEntity(entity: JSONObject, viewType: ViewType): BaseEntity = when (viewType) {
         ViewType.LIST -> mapListEntity(entity)
         ViewType.MAP -> mapMapEntity(entity)
-        else -> UnknownEntity()
+        else -> throw UnknownViewTypeException("Unknown ViewType! $viewType")
     }
 
     private fun mapListEntity(entity: JSONObject): BaseEntity = when(entityTypeFromString(entity.getString(Constants.ENTITY_TYPE))) {
         EntityType.TRAFFIC -> ListEntity.Traffic.fromEntity(entity)
         EntityType.ROADWORK -> ListEntity.Roadwork.fromEntity(entity)
-        else -> UnknownEntity()
+        else -> throw UnknownEntityTypeException("Unknown EntityType! $entity")
     }
 
     private fun mapMapEntity(entity: JSONObject): BaseEntity = when(entity.getString(Constants.TYPE)) {
         MapType.MARKER.value -> UnknownEntity()
         MapType.POLYLINE.value -> UnknownEntity()
         MapType.POLYGON.value -> UnknownEntity()
-        else -> UnknownEntity()
+        else -> throw UnknownMapTypeException("Unknown MapType! $entity")
     }
 }
