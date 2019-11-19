@@ -11,7 +11,9 @@ package dk.vejdirektoratet.vejdirektoratetsdk.utils
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import dk.vejdirektoratet.vejdirektoratetsdk.Bounds
+import dk.vejdirektoratet.vejdirektoratetsdk.Constants
 import dk.vejdirektoratet.vejdirektoratetsdk.IllegalDateFormatException
+import dk.vejdirektoratet.vejdirektoratetsdk.entity.MapEntity.MapType
 import dk.vejdirektoratet.vejdirektoratetsdk.LatLng as VDLatLng
 import java.text.SimpleDateFormat
 import java.util.*
@@ -35,6 +37,15 @@ internal object Utils {
 
     fun latLngToGoogleLatLng(vdLatLng: VDLatLng): LatLng {
         return LatLng(vdLatLng.lat, vdLatLng.lng)
+    }
+
+    internal fun mapTypeFromString(entityTypeString: String): MapType {
+        return when (entityTypeString) {
+            Constants.MAP_TYPE_MARKER -> MapType.MARKER
+            Constants.MAP_TYPE_POLYLINE -> MapType.POLYLINE
+            Constants.MAP_TYPE_POLYGON -> MapType.POLYGON
+            else -> MapType.UNKNOWN
+        }
     }
 }
 

@@ -22,51 +22,50 @@ open class ListEntity(data: JSONObject): BaseEntity(data) {
     val heading: String = data.getString(Constants.HEADING)
     val description: String = data.getString(Constants.DESCRIPTION)
     val bounds: Bounds = JSONUtils.boundsFromJson(data.getJSONObject(Constants.BOUNDS))
+}
 
-
-    class Traffic(data: JSONObject): ListEntity(data) {
-        companion object {
-            @Throws(VDException::class)
-            fun fromEntity(data: JSONObject): Traffic {
-                TrafficValidator().validate(data)
-                return Traffic(data)
-            }
+class Traffic(data: JSONObject): ListEntity(data) {
+    companion object {
+        @Throws(VDException::class)
+        fun fromEntity(data: JSONObject): Traffic {
+            TrafficValidator().validate(data)
+            return Traffic(data)
         }
-
-        private class TrafficValidator: ListValidator()
     }
 
-    class Roadwork(data: JSONObject): ListEntity(data) {
-        companion object {
-            @Throws(VDException::class)
-            fun fromEntity(data: JSONObject): Roadwork {
-                RoadworkValidator().validate(data)
-                return Roadwork(data)
-            }
-        }
+    private class TrafficValidator: ListValidator()
+}
 
-        private class RoadworkValidator: ListValidator()
+class Roadwork(data: JSONObject): ListEntity(data) {
+    companion object {
+        @Throws(VDException::class)
+        fun fromEntity(data: JSONObject): Roadwork {
+            RoadworkValidator().validate(data)
+            return Roadwork(data)
+        }
     }
 
-    private open class ListValidator: EntityValidator() {
-        override fun validate(data: JSONObject) {
-            super.validate(data)
+    private class RoadworkValidator: ListValidator()
+}
 
-            DictionaryValidator(fields = mapOf(
-                Constants.TIMESTAMP to TimestampValidator(),
-                Constants.HEADING to StringValidator(),
-                Constants.DESCRIPTION to StringValidator(),
-                Constants.BOUNDS to DictionaryValidator(true, mapOf(
-                    Constants.SOUTH_WEST to DictionaryValidator(fields = mapOf(
-                        Constants.LATITUDE to DoubleValidator(),
-                        Constants.LONGITUDE to DoubleValidator()
-                    )),
-                    Constants.NORTH_EAST to DictionaryValidator(fields = mapOf(
-                        Constants.LATITUDE to DoubleValidator(),
-                        Constants.LONGITUDE to DoubleValidator()
-                    ))
+private open class ListValidator: EntityValidator() {
+    override fun validate(data: JSONObject) {
+        super.validate(data)
+
+        DictionaryValidator(fields = mapOf(
+            Constants.TIMESTAMP to TimestampValidator(),
+            Constants.HEADING to StringValidator(),
+            Constants.DESCRIPTION to StringValidator(),
+            Constants.BOUNDS to DictionaryValidator(true, mapOf(
+                Constants.SOUTH_WEST to DictionaryValidator(fields = mapOf(
+                    Constants.LATITUDE to NumberValidator(),
+                    Constants.LONGITUDE to NumberValidator()
+                )),
+                Constants.NORTH_EAST to DictionaryValidator(fields = mapOf(
+                    Constants.LATITUDE to NumberValidator(),
+                    Constants.LONGITUDE to NumberValidator()
                 ))
-            )).validate(data)
-        }
+            ))
+        )).validate(data)
     }
 }

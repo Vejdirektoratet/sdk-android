@@ -14,6 +14,7 @@ import dk.vejdirektoratet.vejdirektoratetsdk.MissingRequiredFieldException
 import dk.vejdirektoratet.vejdirektoratetsdk.MissingRequiredValueException
 import dk.vejdirektoratet.vejdirektoratetsdk.VDException
 import dk.vejdirektoratet.vejdirektoratetsdk.utils.Utils
+import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 
@@ -69,13 +70,6 @@ internal class NumberValidator: ValueValidator() {
     }
 }
 
-internal class DoubleValidator: ValueValidator() {
-    override fun validate(data: Any?) {
-        super.validate(data)
-        checkType<Double>(data)
-    }
-}
-
 internal class BooleanValidator: ValueValidator() {
     override fun validate(data: Any?) {
         super.validate(data)
@@ -106,6 +100,23 @@ internal class DictionaryValidator(optional: Boolean = false, private val fields
                 } catch (e: JSONException) {
                     throw MissingRequiredFieldException(fieldName, data)
                 }
+            }
+        }
+    }
+}
+
+internal class ArrayValidator(optional: Boolean = false, private val ignoreInvalidEntries: Boolean = false, private val validator: Validator): ValueValidator(optional) {
+    override fun validate(data: Any?) {
+        super.validate(data)
+
+        if (ignoreInvalidEntries) {
+            return
+        }
+
+        if (data != null) {
+            val jsonData = data as JSONArray
+            for (i in 0 until jsonData.length()) {
+                validator.validate(jsonData.getJSONObject(i))
             }
         }
     }

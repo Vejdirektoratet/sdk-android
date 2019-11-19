@@ -29,13 +29,6 @@ enum class ViewType {
     UNKNOWN
 }
 
-enum class MapType(val value: String) {
-    MARKER("MARKER"),
-    POLYLINE("POLYLINE"),
-    POLYGON("POLYGON"),
-    UNKNOWN("UNKNOWN")
-}
-
 class VejdirektoratetSDK {
 
     companion object {

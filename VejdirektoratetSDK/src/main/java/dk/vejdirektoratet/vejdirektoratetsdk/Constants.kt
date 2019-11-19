@@ -21,6 +21,7 @@ internal class Constants {
         const val LATITUDE = "lat"
         const val LONGITUDE = "lng"
         const val POINTS = "points"
+        const val CENTER = "center"
         const val STYLE = "style"
         const val ID = "id"
         const val STROKE_COLOR = "strokeColor"
@@ -36,12 +37,14 @@ internal class Constants {
         const val LATEX_TRAFFIC = "latextraffic"
         const val LATEX_ROADWORK = "latexroadwork"
 
+        const val MAP_TYPE_MARKER = "MARKER"
+        const val MAP_TYPE_POLYLINE = "POLYLINE"
+        const val MAP_TYPE_POLYGON = "POLYGON"
+
         private const val BASE_URL = "https://test-vdapp.dannap.dk/api/v2/"
         const val BASE_URL_LIST = "${BASE_URL}list/snapshot"
         const val BASE_URL_MAP = "${BASE_URL}map/snapshot"
         const val BASE_URL_GEO = ""
-
-        const val INVALID_ENTITY_TRAFFIC = "Invalid Traffic entity!"
     }
 }
 

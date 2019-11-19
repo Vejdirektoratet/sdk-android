@@ -10,10 +10,9 @@ package dk.vejdirektoratet.vejdirektoratetsdk.feed
 
 import dk.vejdirektoratet.vejdirektoratetsdk.*
 import dk.vejdirektoratet.vejdirektoratetsdk.Constants
+import dk.vejdirektoratet.vejdirektoratetsdk.entity.*
 import dk.vejdirektoratet.vejdirektoratetsdk.http.HTTP
-import dk.vejdirektoratet.vejdirektoratetsdk.entity.BaseEntity
-import dk.vejdirektoratet.vejdirektoratetsdk.entity.ListEntity
-import dk.vejdirektoratet.vejdirektoratetsdk.entity.UnknownEntity
+import dk.vejdirektoratet.vejdirektoratetsdk.entity.MapEntity.MapType
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -54,6 +53,7 @@ class Feed {
                 mappedEntities.add(entity)
             } catch (e: VDException) {
                 // TODO Log exception before continuing!
+                println("${e.javaClass.simpleName} - ${e.localizedMessage}")
                 continue
             }
         }
@@ -68,15 +68,15 @@ class Feed {
     }
 
     private fun mapListEntity(entity: JSONObject): BaseEntity = when(entityTypeFromString(entity.getString(Constants.ENTITY_TYPE))) {
-        EntityType.TRAFFIC -> ListEntity.Traffic.fromEntity(entity)
-        EntityType.ROADWORK -> ListEntity.Roadwork.fromEntity(entity)
+        EntityType.TRAFFIC -> Traffic.fromEntity(entity)
+        EntityType.ROADWORK -> Roadwork.fromEntity(entity)
         else -> throw UnknownEntityTypeException("Unknown EntityType! $entity")
     }
 
     private fun mapMapEntity(entity: JSONObject): BaseEntity = when(entity.getString(Constants.TYPE)) {
-        MapType.MARKER.value -> UnknownEntity()
-        MapType.POLYLINE.value -> UnknownEntity()
-        MapType.POLYGON.value -> UnknownEntity()
+        MapType.MARKER.value -> MapMarker.fromEntity(entity)
+        MapType.POLYLINE.value -> MapPolyline.fromEntity(entity)
+        MapType.POLYGON.value -> MapPolygon.fromEntity(entity)
         else -> throw UnknownMapTypeException("Unknown MapType! $entity")
     }
 }
