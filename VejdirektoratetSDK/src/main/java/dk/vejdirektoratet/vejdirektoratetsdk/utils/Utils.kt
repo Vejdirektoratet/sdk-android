@@ -11,15 +11,20 @@ package dk.vejdirektoratet.vejdirektoratetsdk.utils
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import dk.vejdirektoratet.vejdirektoratetsdk.Bounds
+import dk.vejdirektoratet.vejdirektoratetsdk.IllegalDateFormatException
 import dk.vejdirektoratet.vejdirektoratetsdk.LatLng as VDLatLng
 import java.text.SimpleDateFormat
 import java.util.*
 
 internal object Utils {
 
-    fun epocMilliFromIso8601String(timeString: String): Date {
-        val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX")
-        return formatter.parse(timeString) as Date
+    fun dateFromIso8601String(timeString: String): Date {
+        try {
+            val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX")
+            return formatter.parse(timeString) as Date
+        } catch (e: Exception) {
+            throw IllegalDateFormatException(timeString)
+        }
     }
 
     fun boundsToLatLngBounds(vdBounds: Bounds): LatLngBounds {
