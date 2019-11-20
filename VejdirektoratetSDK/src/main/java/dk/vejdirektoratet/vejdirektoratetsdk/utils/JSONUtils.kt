@@ -8,6 +8,7 @@
 
 package dk.vejdirektoratet.vejdirektoratetsdk.utils
 
+import dk.vejdirektoratet.vejdirektoratetsdk.Constants
 import dk.vejdirektoratet.vejdirektoratetsdk.VDBounds
 import dk.vejdirektoratet.vejdirektoratetsdk.VDLatLng
 import org.json.JSONArray
@@ -16,7 +17,7 @@ import org.json.JSONObject
 internal object JSONUtils {
 
     fun latLngFromJson(latLngObject: JSONObject): VDLatLng {
-       return VDLatLng(latLngObject.getDouble("lat"), latLngObject.getDouble("lng"))
+       return VDLatLng(latLngObject.getDouble(Constants.LATITUDE), latLngObject.getDouble(Constants.LONGITUDE))
     }
 
     fun latLongListFromJson(listJsonArray: JSONArray): MutableList<VDLatLng> {
@@ -30,9 +31,9 @@ internal object JSONUtils {
         return latLngList
     }
 
-    fun boundsFromJson(boundsObject: JSONObject): VDBounds {
-        val jsonSouthWest = boundsObject.getJSONObject("southWest")
-        val jsonNorthEast = boundsObject.getJSONObject("northEast")
+    fun vdBoundsFromJson(boundsObject: JSONObject): VDBounds {
+        val jsonSouthWest = boundsObject.getJSONObject(Constants.SOUTH_WEST)
+        val jsonNorthEast = boundsObject.getJSONObject(Constants.NORTH_EAST)
         val southWest = latLngFromJson(jsonSouthWest)
         val northEast = latLngFromJson(jsonNorthEast)
 

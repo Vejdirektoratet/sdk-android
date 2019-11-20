@@ -52,7 +52,7 @@ class JSONUtilsTest {
 
         val jsonObject = JSONObject("{\"southWest\": {\"lat\": $expectedSouthWestLat, \"lng\": $expectedSouthWestLng}, \"northEast\": {\"lat\": $expectedNorthEastLat, \"lng\": $expectedNorthEastLng}}")
 
-        val vdBounds = JSONUtils.boundsFromJson(jsonObject)
+        val vdBounds = JSONUtils.vdBoundsFromJson(jsonObject)
 
         asserter.assertTrue("Should be of type VDBounds", vdBounds is VDBounds)
         asserter.assertEquals("latLngBounds should have the expected southwest.latitude", expectedSouthWestLat, vdBounds.southWest.lat)

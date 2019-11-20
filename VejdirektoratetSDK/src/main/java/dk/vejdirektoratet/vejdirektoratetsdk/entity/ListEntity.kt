@@ -21,7 +21,7 @@ open class ListEntity(data: JSONObject): BaseEntity(data) {
     val timestamp: Date = Utils.dateFromIso8601String(data.getString(Constants.TIMESTAMP))
     val heading: String = data.getString(Constants.HEADING)
     val description: String = data.getString(Constants.DESCRIPTION)
-    val bounds: VDBounds = JSONUtils.boundsFromJson(data.getJSONObject(Constants.BOUNDS))
+    val bounds: VDBounds = JSONUtils.vdBoundsFromJson(data.getJSONObject(Constants.BOUNDS))
 }
 
 class Traffic(data: JSONObject): ListEntity(data) {
