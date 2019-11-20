@@ -8,7 +8,7 @@
 
 package dk.vejdirektoratet.vejdirektoratetsdk
 
-import com.google.android.gms.maps.model.LatLng as GoogleLatLng
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import dk.vejdirektoratet.vejdirektoratetsdk.feed.Feed
 import dk.vejdirektoratet.vejdirektoratetsdk.utils.Utils
@@ -32,41 +32,39 @@ enum class ViewType {
 class VejdirektoratetSDK {
 
     companion object {
-        fun request(entityTypes: List<EntityType>, region: Bounds?, zoom: Int? = Int.MAX_VALUE, viewType: ViewType, apiKey: String, onCompletion: (result: Feed.Result) -> Unit) {
+        fun request(entityTypes: List<EntityType>, region: VDBounds?, zoom: Int? = Int.MAX_VALUE, viewType: ViewType, apiKey: String, onCompletion: (result: Feed.Result) -> Unit) {
             Feed().request(entityTypes, region, zoom, viewType, apiKey, onCompletion)
         }
 
         fun request(entityTypes: List<EntityType>, region: LatLngBounds, zoom: Int? = Int.MAX_VALUE, viewType: ViewType, apiKey: String, onCompletion: (result: Feed.Result) -> Unit) {
-            val southWest = LatLng(region.southwest.latitude, region.southwest.longitude)
-            val northEast = LatLng(region.northeast.latitude, region.northeast.longitude)
-            request(entityTypes, Bounds(southWest, northEast), zoom, viewType, apiKey, onCompletion)
+            request(entityTypes, Utils.latLngBoundsToBounds(region), zoom, viewType, apiKey, onCompletion)
         }
     }
 }
 
-data class LatLng(val lat: Double, val lng: Double)
+data class VDLatLng(val lat: Double, val lng: Double)
 
-fun LatLng.asGoogleLatLng(): GoogleLatLng {
-    return Utils.latLngToGoogleLatLng(this)
+fun VDLatLng.asLatLng(): LatLng {
+    return Utils.vdLatLngToLatLng(this)
 }
 
-fun MutableList<LatLng>.asGoogleLatLng(): MutableList<GoogleLatLng> {
-    val googleLatLngs: MutableList<GoogleLatLng> = mutableListOf()
+fun MutableList<VDLatLng>.asLatLng(): MutableList<LatLng> {
+    val latLngs: MutableList<LatLng> = mutableListOf()
 
     for (i in 0 until this.size) {
-        googleLatLngs.add(Utils.latLngToGoogleLatLng(this[i]))
+        latLngs.add(Utils.vdLatLngToLatLng(this[i]))
     }
 
-    return googleLatLngs
+    return latLngs
 }
 
-data class Bounds(val southWest: LatLng, val northEast: LatLng)
+data class VDBounds(val southWest: VDLatLng, val northEast: VDLatLng)
 
-fun Bounds.asLatLngBounds(): LatLngBounds {
+fun VDBounds.asLatLngBounds(): LatLngBounds {
     return Utils.boundsToLatLngBounds(this)
 }
 
-fun MutableList<Bounds>.asLatLngBounds(): MutableList<LatLngBounds> {
+fun MutableList<VDBounds>.asLatLngBounds(): MutableList<LatLngBounds> {
     val latlngBounds: MutableList<LatLngBounds> = mutableListOf()
 
     for (i in 0 until this.size) {

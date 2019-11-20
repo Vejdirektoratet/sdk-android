@@ -9,8 +9,8 @@
 package dk.vejdirektoratet.vejdirektoratetsdk.entity
 
 import dk.vejdirektoratet.vejdirektoratetsdk.Constants
-import dk.vejdirektoratet.vejdirektoratetsdk.LatLng
 import dk.vejdirektoratet.vejdirektoratetsdk.VDException
+import dk.vejdirektoratet.vejdirektoratetsdk.VDLatLng
 import dk.vejdirektoratet.vejdirektoratetsdk.utils.JSONUtils
 import dk.vejdirektoratet.vejdirektoratetsdk.utils.Utils
 import org.json.JSONObject
@@ -28,7 +28,7 @@ open class MapEntity(data: JSONObject): BaseEntity(data) {
 }
 
 class MapMarker(data: JSONObject): MapEntity(data) {
-    val center: LatLng = JSONUtils.latLngFromJson(data.getJSONObject(Constants.CENTER))
+    val center: VDLatLng = JSONUtils.latLngFromJson(data.getJSONObject(Constants.CENTER))
 
     companion object {
         @Throws(VDException::class)
@@ -54,7 +54,7 @@ class MapMarker(data: JSONObject): MapEntity(data) {
 }
 
 class MapPolyline(data: JSONObject): MapEntity(data) {
-    val points: MutableList<LatLng> = JSONUtils.latLongListFromJson(data.getJSONArray(Constants.POINTS))
+    val points: MutableList<VDLatLng> = JSONUtils.latLongListFromJson(data.getJSONArray(Constants.POINTS))
 
     companion object {
         @Throws(VDException::class)
@@ -80,7 +80,7 @@ class MapPolyline(data: JSONObject): MapEntity(data) {
 }
 
 class MapPolygon(data: JSONObject): MapEntity(data) {
-    val points: MutableList<LatLng> = JSONUtils.latLongListFromJson(data.getJSONArray(Constants.POINTS))
+    val points: MutableList<VDLatLng> = JSONUtils.latLongListFromJson(data.getJSONArray(Constants.POINTS))
 
     companion object {
         @Throws(VDException::class)

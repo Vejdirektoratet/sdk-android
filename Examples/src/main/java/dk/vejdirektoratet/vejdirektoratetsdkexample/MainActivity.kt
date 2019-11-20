@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val bounds = Bounds(LatLng(56.1417197,10.1479164), LatLng(56.1954316,10.2435318))
+        val bounds = VDBounds(VDLatLng(56.1417197,10.1479164), VDLatLng(56.1954316,10.2435318))
 
         VejdirektoratetSDK.request(entityTypes = listOf(EntityType.TRAFFIC, EntityType.ROADWORK), region = bounds, viewType = ViewType.LIST, apiKey = apiKey) { result: Feed.Result ->
             when (result) {

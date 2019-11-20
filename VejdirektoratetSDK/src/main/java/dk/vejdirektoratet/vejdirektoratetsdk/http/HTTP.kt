@@ -29,7 +29,7 @@ internal class HTTP {
         ViewType.GEO to Constants.BASE_URL_GEO
     )
 
-    internal fun request(entityTypes: List<EntityType>, region: Bounds?, zoom: Int?, viewType: ViewType, apiKey: String, onCompletion: (result: Result) -> Unit) {
+    internal fun request(entityTypes: List<EntityType>, region: VDBounds?, zoom: Int?, viewType: ViewType, apiKey: String, onCompletion: (result: Result) -> Unit) {
         val url = buildUrl(entityTypes, region, zoom, viewType, apiKey)
 
         if (url.isNotBlank()) {
@@ -52,7 +52,7 @@ internal class HTTP {
         }
     }
 
-    private fun buildUrl(entityTypes: List<EntityType>, region: Bounds?, zoom: Int?, viewType: ViewType, apiKey: String): String {
+    private fun buildUrl(entityTypes: List<EntityType>, region: VDBounds?, zoom: Int?, viewType: ViewType, apiKey: String): String {
         var url: String = baseUrl[viewType] ?: ""
         if (url == "") {
             return url

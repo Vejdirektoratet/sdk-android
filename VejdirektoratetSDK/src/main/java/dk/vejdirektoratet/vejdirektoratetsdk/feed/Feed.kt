@@ -32,7 +32,7 @@ class Feed {
         class HttpError(override val exception: Exception, val statusCode: Int): Error(exception)
     }
 
-    internal fun request(entityTypes: List<EntityType>, region: Bounds?, zoom: Int?, viewType: ViewType, apiKey: String, onCompletion: (result: Result) -> Unit) {
+    internal fun request(entityTypes: List<EntityType>, region: VDBounds?, zoom: Int?, viewType: ViewType, apiKey: String, onCompletion: (result: Result) -> Unit) {
         HTTP().request(entityTypes, region, zoom, viewType, apiKey) { result: HTTP.Result ->
             onCompletion(mapHttpResult(result, viewType))
         }
