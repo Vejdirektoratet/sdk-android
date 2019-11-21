@@ -28,7 +28,7 @@ internal object Utils {
         }
     }
 
-    fun boundsToLatLngBounds(vdBounds: VDBounds): LatLngBounds {
+    fun VDBoundsToLatLngBounds(vdBounds: VDBounds): LatLngBounds {
         val southWest = LatLng(vdBounds.southWest.lat, vdBounds.southWest.lng)
         val northEast = LatLng(vdBounds.northEast.lat, vdBounds.northEast.lng)
         return LatLngBounds(southWest, northEast)
@@ -47,7 +47,7 @@ internal object Utils {
         }
     }
 
-    fun latLngBoundsToBounds(latLngBounds: LatLngBounds): VDBounds {
+    fun latLngBoundsToVDBounds(latLngBounds: LatLngBounds): VDBounds {
         val southWest = VDLatLng(latLngBounds.southwest.latitude, latLngBounds.southwest.longitude)
         val northEast = VDLatLng(latLngBounds.northeast.latitude, latLngBounds.northeast.longitude)
         return VDBounds(southWest, northEast)

@@ -37,7 +37,7 @@ class VejdirektoratetSDK {
         }
 
         fun request(entityTypes: List<EntityType>, region: LatLngBounds, zoom: Int? = Int.MAX_VALUE, viewType: ViewType, apiKey: String, onCompletion: (result: Feed.Result) -> Unit) {
-            request(entityTypes, Utils.latLngBoundsToBounds(region), zoom, viewType, apiKey, onCompletion)
+            request(entityTypes, Utils.latLngBoundsToVDBounds(region), zoom, viewType, apiKey, onCompletion)
         }
     }
 }
@@ -61,14 +61,14 @@ fun MutableList<VDLatLng>.asLatLng(): MutableList<LatLng> {
 data class VDBounds(val southWest: VDLatLng, val northEast: VDLatLng)
 
 fun VDBounds.asLatLngBounds(): LatLngBounds {
-    return Utils.boundsToLatLngBounds(this)
+    return Utils.VDBoundsToLatLngBounds(this)
 }
 
 fun MutableList<VDBounds>.asLatLngBounds(): MutableList<LatLngBounds> {
     val latlngBounds: MutableList<LatLngBounds> = mutableListOf()
 
     for (i in 0 until this.size) {
-        latlngBounds.add(Utils.boundsToLatLngBounds(this[i]))
+        latlngBounds.add(Utils.VDBoundsToLatLngBounds(this[i]))
     }
 
     return latlngBounds

@@ -40,7 +40,7 @@ class VejdirektoratetSDKTest {
         val latLngList = vdLatLngList.asLatLng()
 
         asserter.assertEquals("Should contain 2 items", 2, latLngList.size)
-        asserter.assertTrue("Should be of type MutableList containing LatLng ", latLngList is MutableList<LatLng>)
+        asserter.assertTrue("Should be of type MutableList containing LatLng", latLngList is MutableList<LatLng>)
         asserter.assertTrue("Should containing LatLng ", latLngList[0] is LatLng)
         asserter.assertEquals("Should have the expected Latitude", expectedLat, latLngList[0].latitude)
         asserter.assertEquals("Should have the expected Longitude", expectedLng, latLngList[0].longitude)
