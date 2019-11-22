@@ -25,8 +25,7 @@ enum class EntityType(val value: String) {
 enum class ViewType {
     LIST,
     MAP,
-    GEO,
-    UNKNOWN
+    GEO
 }
 
 class VejdirektoratetSDK {
