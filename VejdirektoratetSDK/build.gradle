@@ -1,6 +1,13 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+
+def releaseUrl = "\"https://test-vdapp.dannap.dk/api/v2/\""
+def developmentUrl = "\"https://test-vdapp.dannap.dk/api/v2/\""
+
+def preproductionPort = "1337"
+def preproductionUrl = "\"http://localhost:" + preproductionPort + "/api/v2/\""
+
 android {
     compileSdkVersion 28
 
@@ -10,7 +17,6 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
     }
@@ -18,7 +24,22 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            buildConfigField "String", "SERVER_URL", releaseUrl
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        development {
+            minifyEnabled false
+            buildConfigField "String", "SERVER_URL", developmentUrl
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        preproduction {
+            minifyEnabled false
+            buildConfigField "int", "SERVER_PORT", preproductionPort
+            buildConfigField "String", "SERVER_URL", preproductionUrl
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            buildConfigField "String", "SERVER_URL", developmentUrl
         }
     }
 
@@ -36,6 +57,7 @@ dependencies {
     testImplementation 'org.jetbrains.kotlin:kotlin-test:1.3.60'
     testImplementation 'org.jetbrains.kotlin:kotlin-test-junit:1.3.60'
     testImplementation 'org.json:json:20180813'
+    testImplementation 'com.squareup.okhttp3:mockwebserver:4.0.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }

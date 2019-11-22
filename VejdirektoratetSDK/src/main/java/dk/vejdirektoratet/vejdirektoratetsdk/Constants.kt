@@ -41,7 +41,7 @@ internal class Constants {
         const val MAP_TYPE_POLYLINE = "POLYLINE"
         const val MAP_TYPE_POLYGON = "POLYGON"
 
-        private const val BASE_URL = "https://test-vdapp.dannap.dk/api/v2/"
+        private const val BASE_URL = BuildConfig.SERVER_URL
         const val BASE_URL_LIST = "${BASE_URL}list/snapshot"
         const val BASE_URL_MAP = "${BASE_URL}map/snapshot"
         const val BASE_URL_GEO = ""
