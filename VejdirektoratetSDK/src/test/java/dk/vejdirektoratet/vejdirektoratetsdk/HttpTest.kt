@@ -62,6 +62,21 @@ class HttpTest {
     }
 
     @Test
+    fun `Should cancel the request`() {
+        val response = "[]"
+        mockServer.enqueue(MockResponse().setBody(response).setResponseCode(200))
+
+        var requestResult: Feed.Result? = null
+        val listRequest = VejdirektoratetSDK.request(entityTypes = listOf(EntityType.TRAFFIC, EntityType.ROADWORK), region = null, viewType = ViewType.LIST, apiKey = "test_key") { result: Feed.Result ->
+            requestResult = result
+        }
+        listRequest.cancel()
+        Thread.sleep(200)
+
+        asserter.assertNull("Should be null", requestResult)
+    }
+
+    @Test
     fun `Should return Result HttpError with correct status code`() {
         performErrorCodeTest(400)
         performErrorCodeTest(404)

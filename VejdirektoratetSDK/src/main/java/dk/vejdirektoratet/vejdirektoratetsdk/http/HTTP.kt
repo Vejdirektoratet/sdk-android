@@ -9,6 +9,7 @@
 package dk.vejdirektoratet.vejdirektoratetsdk.http
 
 import com.github.kittinunf.fuel.core.requests.CancellableRequest
+import com.github.kittinunf.fuel.core.requests.isCancelled
 import com.github.kittinunf.fuel.httpGet
 import dk.vejdirektoratet.vejdirektoratetsdk.*
 import dk.vejdirektoratet.vejdirektoratetsdk.Constants
@@ -42,15 +43,19 @@ internal class HTTP {
     }
 
     private fun request(url: String, onCompletion: (result: Result) -> Unit): VDRequest {
-        val httpRequest = url.httpGet().response { _, response, result ->
-            when (result) {
-                is FuelResult.Failure -> {
-                    onCompletion(Result.HttpError(result.error, response.statusCode))
+        val httpRequest = url.httpGet()
+            .interrupt { request -> println("${request.url} was interrupted and cancelled") }
+            .response { request, response, result ->
+                if (!request.isCancelled) {
+                    when (result) {
+                        is FuelResult.Failure -> {
+                            onCompletion(Result.HttpError(result.error, response.statusCode))
+                        }
+                        is FuelResult.Success -> {
+                            onCompletion(Result.Success(JSONArray(String(result.value))))
+                        }
+                    }
                 }
-                is FuelResult.Success -> {
-                    onCompletion(Result.Success(JSONArray(String(result.value))))
-                }
-            }
         }
 
         return VDRequest(httpRequest)
