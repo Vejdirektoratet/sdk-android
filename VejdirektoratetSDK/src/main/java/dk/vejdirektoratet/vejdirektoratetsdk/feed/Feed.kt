@@ -13,6 +13,7 @@ import dk.vejdirektoratet.vejdirektoratetsdk.Constants
 import dk.vejdirektoratet.vejdirektoratetsdk.entity.*
 import dk.vejdirektoratet.vejdirektoratetsdk.http.HTTP
 import dk.vejdirektoratet.vejdirektoratetsdk.entity.MapEntity.MapType
+import dk.vejdirektoratet.vejdirektoratetsdk.http.VDRequest
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -32,8 +33,8 @@ class Feed {
         class HttpError(override val exception: Exception, val statusCode: Int): Error(exception)
     }
 
-    internal fun request(entityTypes: List<EntityType>, region: VDBounds?, zoom: Int?, viewType: ViewType, apiKey: String, onCompletion: (result: Result) -> Unit) {
-        HTTP().request(entityTypes, region, zoom, viewType, apiKey) { result: HTTP.Result ->
+    internal fun request(entityTypes: List<EntityType>, region: VDBounds?, zoom: Int?, viewType: ViewType, apiKey: String, onCompletion: (result: Result) -> Unit): VDRequest {
+        return HTTP().request(entityTypes, region, zoom, viewType, apiKey) { result: HTTP.Result ->
             onCompletion(mapHttpResult(result, viewType))
         }
     }

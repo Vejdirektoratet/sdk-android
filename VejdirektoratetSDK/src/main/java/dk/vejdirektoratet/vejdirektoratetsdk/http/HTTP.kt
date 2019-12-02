@@ -8,12 +8,19 @@
 
 package dk.vejdirektoratet.vejdirektoratetsdk.http
 
+import com.github.kittinunf.fuel.core.requests.CancellableRequest
 import com.github.kittinunf.fuel.httpGet
 import dk.vejdirektoratet.vejdirektoratetsdk.*
 import dk.vejdirektoratet.vejdirektoratetsdk.Constants
 import dk.vejdirektoratet.vejdirektoratetsdk.EmptyURLException
 import com.github.kittinunf.result.Result as FuelResult
 import org.json.JSONArray
+
+class VDRequest(private val request: CancellableRequest) {
+    fun cancel() {
+        request.cancel()
+    }
+}
 
 internal class HTTP {
 
@@ -29,18 +36,13 @@ internal class HTTP {
         ViewType.GEO to Constants.BASE_URL_GEO
     )
 
-    internal fun request(entityTypes: List<EntityType>, region: VDBounds?, zoom: Int?, viewType: ViewType, apiKey: String, onCompletion: (result: Result) -> Unit) {
+    internal fun request(entityTypes: List<EntityType>, region: VDBounds?, zoom: Int?, viewType: ViewType, apiKey: String, onCompletion: (result: Result) -> Unit): VDRequest {
         val url = buildUrl(entityTypes, region, zoom, viewType, apiKey)
-
-        if (url.isNotBlank()) {
-            request(url, onCompletion)
-        } else {
-            onCompletion(Result.Error(EmptyURLException("Empty Url!")))
-        }
+        return request(url, onCompletion)
     }
 
-    private fun request(url: String, onCompletion: (result: Result) -> Unit) {
-        url.httpGet().response { _, response, result ->
+    private fun request(url: String, onCompletion: (result: Result) -> Unit): VDRequest {
+        val httpRequest = url.httpGet().response { _, response, result ->
             when (result) {
                 is FuelResult.Failure -> {
                     onCompletion(Result.HttpError(result.error, response.statusCode))
@@ -50,6 +52,8 @@ internal class HTTP {
                 }
             }
         }
+
+        return VDRequest(httpRequest)
     }
 
     private fun buildUrl(entityTypes: List<EntityType>, region: VDBounds?, zoom: Int?, viewType: ViewType, apiKey: String): String {

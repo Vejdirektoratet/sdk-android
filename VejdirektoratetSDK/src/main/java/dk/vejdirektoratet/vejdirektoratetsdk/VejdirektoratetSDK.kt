@@ -11,6 +11,7 @@ package dk.vejdirektoratet.vejdirektoratetsdk
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import dk.vejdirektoratet.vejdirektoratetsdk.feed.Feed
+import dk.vejdirektoratet.vejdirektoratetsdk.http.VDRequest
 import dk.vejdirektoratet.vejdirektoratetsdk.utils.Utils
 
 enum class EntityType(val value: String) {
@@ -31,12 +32,12 @@ enum class ViewType {
 class VejdirektoratetSDK {
 
     companion object {
-        fun request(entityTypes: List<EntityType>, region: VDBounds?, zoom: Int? = Int.MAX_VALUE, viewType: ViewType, apiKey: String, onCompletion: (result: Feed.Result) -> Unit) {
-            Feed().request(entityTypes, region, zoom, viewType, apiKey, onCompletion)
+        fun request(entityTypes: List<EntityType>, region: VDBounds?, zoom: Int? = Int.MAX_VALUE, viewType: ViewType, apiKey: String, onCompletion: (result: Feed.Result) -> Unit): VDRequest {
+            return Feed().request(entityTypes, region, zoom, viewType, apiKey, onCompletion)
         }
 
-        fun request(entityTypes: List<EntityType>, region: LatLngBounds, zoom: Int? = Int.MAX_VALUE, viewType: ViewType, apiKey: String, onCompletion: (result: Feed.Result) -> Unit) {
-            request(entityTypes, Utils.latLngBoundsToVDBounds(region), zoom, viewType, apiKey, onCompletion)
+        fun request(entityTypes: List<EntityType>, region: LatLngBounds, zoom: Int? = Int.MAX_VALUE, viewType: ViewType, apiKey: String, onCompletion: (result: Feed.Result) -> Unit): VDRequest {
+            return request(entityTypes, Utils.latLngBoundsToVDBounds(region), zoom, viewType, apiKey, onCompletion)
         }
     }
 }

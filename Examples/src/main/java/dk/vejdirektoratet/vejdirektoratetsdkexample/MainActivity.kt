@@ -28,19 +28,21 @@ class MainActivity : AppCompatActivity() {
 
         val bounds = VDBounds(VDLatLng(56.1417197,10.1479164), VDLatLng(56.1954316,10.2435318))
 
-        VejdirektoratetSDK.request(entityTypes = listOf(EntityType.TRAFFIC, EntityType.ROADWORK), region = bounds, viewType = ViewType.LIST, apiKey = apiKey) { result: Feed.Result ->
+        val listRequest = VejdirektoratetSDK.request(entityTypes = listOf(EntityType.TRAFFIC, EntityType.ROADWORK), region = bounds, viewType = ViewType.LIST, apiKey = apiKey) { result: Feed.Result ->
             when (result) {
                 is Feed.Result.Success -> handleSuccess(result, false)
                 is Feed.Result.Error -> handleFailure(result, false)
             }
         }
+        //listRequest.cancel()
 
-        VejdirektoratetSDK.request(entityTypes = listOf(EntityType.TRAFFIC, EntityType.ROADWORK), region = bounds, viewType = ViewType.MAP, apiKey = apiKey) { result: Feed.Result ->
+        val mapRequest = VejdirektoratetSDK.request(entityTypes = listOf(EntityType.TRAFFIC, EntityType.ROADWORK), region = bounds, viewType = ViewType.MAP, apiKey = apiKey) { result: Feed.Result ->
             when (result) {
                 is Feed.Result.Success -> handleSuccess(result, true)
                 is Feed.Result.Error -> handleFailure(result, true)
             }
         }
+        //mapRequest.cancel()
     }
 
     private fun handleSuccess(result: Feed.Result.Success, map: Boolean) {
