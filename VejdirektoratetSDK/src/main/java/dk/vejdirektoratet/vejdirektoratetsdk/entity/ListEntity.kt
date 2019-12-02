@@ -34,7 +34,7 @@ class Traffic(data: JSONObject): ListEntity(data) {
         }
     }
 
-    private class TrafficValidator: ListValidator()
+    internal class TrafficValidator: ListValidator()
 }
 
 class Roadwork(data: JSONObject): ListEntity(data) {
@@ -46,10 +46,10 @@ class Roadwork(data: JSONObject): ListEntity(data) {
         }
     }
 
-    private class RoadworkValidator: ListValidator()
+    internal class RoadworkValidator: ListValidator()
 }
 
-private open class ListValidator: EntityValidator() {
+internal open class ListValidator: EntityValidator() {
     override fun validate(data: JSONObject) {
         super.validate(data)
 

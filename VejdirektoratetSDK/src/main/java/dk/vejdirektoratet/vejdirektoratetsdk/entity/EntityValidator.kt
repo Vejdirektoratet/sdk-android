@@ -88,7 +88,7 @@ internal class TimestampValidator: ValueValidator() {
     }
 }
 
-internal class DictionaryValidator(optional: Boolean = false, private val fields: Map<String, Validator>): ValueValidator(optional) {
+internal class DictionaryValidator(private val optional: Boolean = false, private val fields: Map<String, Validator>): ValueValidator(optional) {
     override fun validate(data: Any?) {
         super.validate(data)
 
@@ -99,6 +99,8 @@ internal class DictionaryValidator(optional: Boolean = false, private val fields
                     var fieldNameData: Any? = null
                     if (jsonData.has(fieldName)) {
                         fieldNameData = jsonData.get(fieldName)
+                    } else if (validator !is DictionaryValidator || !validator.optional) {
+                        throw MissingRequiredFieldException(fieldName, data)
                     }
                     validator.validate(fieldNameData)
                 } catch (e: JSONException) {

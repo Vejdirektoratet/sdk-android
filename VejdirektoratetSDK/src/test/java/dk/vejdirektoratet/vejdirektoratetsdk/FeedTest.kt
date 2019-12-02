@@ -146,7 +146,7 @@ class FeedTest {
     fun `LIST - test that entities with missing fields are filtered away`() {
 
         val response = """[
-                    {"heading":"Correct","description":"","tag":"","entityType":"latextraffic","timestamp":"2019-09-12T09:20:26.000+0000"},
+                    {"heading":"Correct","description":"asd","tag":"asd","entityType":"latextraffic","timestamp":"2019-09-12T09:20:26.000+0000"},
                     {"heading":"Missing description","tag":"","entityType":"latextraffic","timestamp":"2019-09-12T09:20:26.000+0000"},
                     {"heading":"Description <null>","description":null,"tag":"","entityType":"latextraffic","timestamp":"2019-09-12T09:20:26.000+0000"},
                     {"heading":"Missing entityType","description":"","tag":"","timestamp":"2019-09-12T09:20:26.000+0000"},
@@ -199,14 +199,14 @@ class FeedTest {
         val firstEntity = entities[0] as MapEntity
         asserter.assertTrue("Entity should be of type MapPolyline", firstEntity is MapPolyline)
         firstEntity as MapPolyline
-        asserter.assertEquals("Entity should be of type EntityType.TRAFFIC", EntityType.TRAFFIC, firstEntity.entityType)
+        asserter.assertEquals("Entity should be of type EntityType.TRAFFIC", BaseEntity.EntityType.Traffic, firstEntity.entityType)
         asserter.assertEquals("Should contain correct tag", "VHJhZmlrbWFuMi9yX1RyYWZpa21hbjIvMTMzNDQzMF9USUMtVHJhZmlrbWFuMi8x", firstEntity.tag)
         asserter.assertEquals("Should contain 11 points", 11, firstEntity.points.size)
 
         val secondEntity = entities[1] as MapEntity
         asserter.assertTrue("Entity should be of type MapMarker", secondEntity is MapMarker)
         secondEntity as MapMarker
-        asserter.assertEquals("Entity should be of type EntityType.ROADWORK", EntityType.ROADWORK, secondEntity.entityType)
+        asserter.assertEquals("Entity should be of type EntityType.ROADWORK", BaseEntity.EntityType.RoadWork, secondEntity.entityType)
         asserter.assertEquals("Should contain correct tag", "VHJhZmlrbWFuMi9yX09UbWFuL3Zlam1hbl84NTFfMTktMDM3MjNfVElDLVRyYWZpa21hbjIvMQ", secondEntity.tag)
         asserter.assertEquals("Should contain correct center.latitude", secondEntity.center.lat, 57.070131)
         asserter.assertEquals("Should contain correct center.longitude", secondEntity.center.lng, 9.910451)
