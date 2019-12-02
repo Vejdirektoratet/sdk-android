@@ -17,14 +17,6 @@ import dk.vejdirektoratet.vejdirektoratetsdk.http.VDRequest
 import org.json.JSONArray
 import org.json.JSONObject
 
-internal fun entityTypeFromString(entityTypeString: String): EntityType {
-    return when (entityTypeString) {
-        Constants.LATEX_TRAFFIC -> EntityType.TRAFFIC
-        Constants.LATEX_ROADWORK -> EntityType.ROADWORK
-        else -> EntityType.UNKNOWN
-    }
-}
-
 class Feed {
 
     sealed class Result {
@@ -72,9 +64,9 @@ class Feed {
             val entityType = entity.get(Constants.ENTITY_TYPE)
 
             if (entityType is String) {
-                return when(entityTypeFromString(entityType)) {
-                    EntityType.TRAFFIC -> Traffic.fromEntity(entity)
-                    EntityType.ROADWORK -> Roadwork.fromEntity(entity)
+                return when(entityType) {
+                    Constants.LATEX_TRAFFIC -> Traffic.fromEntity(entity)
+                    Constants.LATEX_ROADWORK -> Roadwork.fromEntity(entity)
                     else -> throw UnknownEntityTypeException("Unknown EntityType! $entity")
                 }
             }

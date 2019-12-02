@@ -36,6 +36,7 @@ internal class Constants {
 
         const val LATEX_TRAFFIC = "latextraffic"
         const val LATEX_ROADWORK = "latexroadwork"
+        const val VD_GEO_INRIX_SEGMENT = "vd.geo.inrix.segment"
 
         const val MAP_TYPE_MARKER = "MARKER"
         const val MAP_TYPE_POLYLINE = "POLYLINE"
