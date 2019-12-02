@@ -68,7 +68,7 @@ class HttpTest {
         performErrorCodeTest(500)
     }
 
-    fun performErrorCodeTest(expectedErrorCode: Int) {
+    private fun performErrorCodeTest(expectedErrorCode: Int) {
         mockServer.enqueue(MockResponse().setResponseCode(expectedErrorCode))
 
         var requestResult: Feed.Result? = null

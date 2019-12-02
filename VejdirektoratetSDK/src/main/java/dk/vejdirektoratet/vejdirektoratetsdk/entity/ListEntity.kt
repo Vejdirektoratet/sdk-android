@@ -13,6 +13,7 @@ import dk.vejdirektoratet.vejdirektoratetsdk.Constants
 import dk.vejdirektoratet.vejdirektoratetsdk.VDException
 import dk.vejdirektoratet.vejdirektoratetsdk.utils.JSONUtils
 import dk.vejdirektoratet.vejdirektoratetsdk.utils.Utils
+import org.json.JSONException
 import org.json.JSONObject
 import java.util.*
 
@@ -21,7 +22,7 @@ open class ListEntity(data: JSONObject): BaseEntity(data) {
     val timestamp: Date = Utils.dateFromIso8601String(data.getString(Constants.TIMESTAMP))
     val heading: String = data.getString(Constants.HEADING)
     val description: String = data.getString(Constants.DESCRIPTION)
-    val bounds: VDBounds = JSONUtils.vdBoundsFromJson(data.getJSONObject(Constants.BOUNDS))
+    val bounds: VDBounds? = try {JSONUtils.vdBoundsFromJson(data.getJSONObject(Constants.BOUNDS))} catch (e: JSONException) {null}
 }
 
 class Traffic(data: JSONObject): ListEntity(data) {

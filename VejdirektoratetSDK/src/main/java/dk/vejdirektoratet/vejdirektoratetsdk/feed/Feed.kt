@@ -53,7 +53,6 @@ class Feed {
                 mappedEntities.add(entity)
             } catch (e: VDException) {
                 // TODO Log exception before continuing!
-                println("${e.javaClass.simpleName} - ${e.localizedMessage}")
                 continue
             }
         }
@@ -67,16 +66,34 @@ class Feed {
         else -> throw UnknownViewTypeException("Unknown ViewType! $viewType")
     }
 
-    private fun mapListEntity(entity: JSONObject): BaseEntity = when(entityTypeFromString(entity.getString(Constants.ENTITY_TYPE))) {
-        EntityType.TRAFFIC -> Traffic.fromEntity(entity)
-        EntityType.ROADWORK -> Roadwork.fromEntity(entity)
-        else -> throw UnknownEntityTypeException("Unknown EntityType! $entity")
+    private fun mapListEntity(entity: JSONObject): BaseEntity {
+        if (entity.has(Constants.ENTITY_TYPE)) {
+            val entityType = entity.get(Constants.ENTITY_TYPE)
+
+            if (entityType is String) {
+                return when(entityTypeFromString(entityType)) {
+                    EntityType.TRAFFIC -> Traffic.fromEntity(entity)
+                    EntityType.ROADWORK -> Roadwork.fromEntity(entity)
+                    else -> throw UnknownEntityTypeException("Unknown EntityType! $entity")
+                }
+            }
+        }
+        throw UnknownEntityTypeException("Unknown EntityType! $entity")
     }
 
-    private fun mapMapEntity(entity: JSONObject): BaseEntity = when(entity.getString(Constants.TYPE)) {
-        MapType.MARKER.value -> MapMarker.fromEntity(entity)
-        MapType.POLYLINE.value -> MapPolyline.fromEntity(entity)
-        MapType.POLYGON.value -> MapPolygon.fromEntity(entity)
-        else -> throw UnknownMapTypeException("Unknown MapType! $entity")
+    private fun mapMapEntity(entity: JSONObject): BaseEntity {
+        if (entity.has(Constants.TYPE)) {
+            val type = entity.get(Constants.TYPE)
+
+            if (type is String) {
+                return when(type) {
+                    MapType.MARKER.value -> MapMarker.fromEntity(entity)
+                    MapType.POLYLINE.value -> MapPolyline.fromEntity(entity)
+                    MapType.POLYGON.value -> MapPolygon.fromEntity(entity)
+                    else -> throw UnknownMapTypeException("Unknown MapType! $entity")
+                }
+            }
+        }
+        throw UnknownMapTypeException("Unknown MapType! $entity")
     }
 }

@@ -21,9 +21,9 @@ import org.json.JSONObject
 internal inline fun <reified T> checkType(data: Any?) {
     if (data !is T) {
         if (data == null) {
-            throw IncorrectTypeException(String::class, null, data)
+            throw IncorrectTypeException(T::class, null, data)
         }
-        throw IncorrectTypeException(String::class, data::class, data)
+        throw IncorrectTypeException(T::class, data::class, data)
     }
 }
 
@@ -35,7 +35,7 @@ internal open class Validator {
 internal open class ValueValidator(private val optional: Boolean = false, private val validValues: List<Any>? = null): Validator() {
 
     override fun validate(data: Any?) {
-        if (data == null) {
+        if (data == null || data.equals(null)) {
             if (optional) {
                 return
             }
@@ -92,11 +92,15 @@ internal class DictionaryValidator(optional: Boolean = false, private val fields
     override fun validate(data: Any?) {
         super.validate(data)
 
-        if (data != null) {
+        if (data != null && !data.equals(null)) {
             val jsonData = data as JSONObject
             for ((fieldName, validator) in fields) {
                 try {
-                    validator.validate(jsonData.get(fieldName))
+                    var fieldNameData: Any? = null
+                    if (jsonData.has(fieldName)) {
+                        fieldNameData = jsonData.get(fieldName)
+                    }
+                    validator.validate(fieldNameData)
                 } catch (e: JSONException) {
                     throw MissingRequiredFieldException(fieldName, data)
                 }
