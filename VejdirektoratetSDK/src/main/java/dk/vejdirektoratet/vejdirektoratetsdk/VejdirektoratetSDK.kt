@@ -20,7 +20,6 @@ enum class EntityType(val value: String) {
     TRAFFIC_DENSITY("trafficdensity"),
     WINTER_DEICING("winterdeicing"),
     WINTER_CONDITION("wintercondition"),
-    UNKNOWN("unknown")
 }
 
 enum class ViewType {
