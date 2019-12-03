@@ -13,7 +13,9 @@ import com.google.android.gms.maps.model.LatLngBounds
 import dk.vejdirektoratet.vejdirektoratetsdk.*
 import dk.vejdirektoratet.vejdirektoratetsdk.Constants
 import dk.vejdirektoratet.vejdirektoratetsdk.IllegalDateFormatException
+import dk.vejdirektoratet.vejdirektoratetsdk.entity.EntityValidator
 import dk.vejdirektoratet.vejdirektoratetsdk.entity.MapEntity.MapType
+import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -51,6 +53,19 @@ internal object Utils {
         val southWest = VDLatLng(latLngBounds.southwest.latitude, latLngBounds.southwest.longitude)
         val northEast = VDLatLng(latLngBounds.northeast.latitude, latLngBounds.northeast.longitude)
         return VDBounds(southWest, northEast)
+    }
+
+    internal inline fun <reified T> assertThrowException(data: String, validator: EntityValidator) {
+        try {
+            validator.validate(JSONObject(data))
+            throw MissingExceptionException(T::class, data)
+        } catch (e: Exception) {
+            if (e is MissingExceptionException) {
+                throw MissingExceptionException(T::class, data)
+            } else if (e !is T) {
+                throw IncorrectExceptionException(T::class, e::class, data)
+            }
+        }
     }
 }
 

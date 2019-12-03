@@ -8,9 +8,9 @@
 
 package dk.vejdirektoratet.vejdirektoratetsdk
 
-import dk.vejdirektoratet.vejdirektoratetsdk.entity.EntityValidator
 import dk.vejdirektoratet.vejdirektoratetsdk.entity.Roadwork
 import dk.vejdirektoratet.vejdirektoratetsdk.entity.Traffic
+import dk.vejdirektoratet.vejdirektoratetsdk.utils.Utils
 import org.json.JSONObject
 import kotlin.test.Test
 
@@ -54,7 +54,7 @@ class ListEntityValidatorTest {
 
     @Test(expected = MissingRequiredFieldException::class)
     fun `test invalid Traffic entity`() {
-        val entity = """{}"""
+        val entity = "{}"
 
         Traffic.TrafficValidator().validate(JSONObject(entity))
     }
@@ -98,11 +98,11 @@ class ListEntityValidatorTest {
                 "entityType": "${Constants.LATEX_TRAFFIC}"
             }"""
 
-        assertThrowException<MissingRequiredFieldException>(missingHeadingEntity, validator)
-        assertThrowException<MissingRequiredFieldException>(missingDescriptionEntity, validator)
-        assertThrowException<MissingRequiredFieldException>(missingTagEntity, validator)
-        assertThrowException<MissingRequiredFieldException>(missingEntityTypeEntity, validator)
-        assertThrowException<MissingRequiredFieldException>(missingTimestampEntity, validator)
+        Utils.assertThrowException<MissingRequiredFieldException>(missingHeadingEntity, validator)
+        Utils.assertThrowException<MissingRequiredFieldException>(missingDescriptionEntity, validator)
+        Utils.assertThrowException<MissingRequiredFieldException>(missingTagEntity, validator)
+        Utils.assertThrowException<MissingRequiredFieldException>(missingEntityTypeEntity, validator)
+        Utils.assertThrowException<MissingRequiredFieldException>(missingTimestampEntity, validator)
     }
 
     @Test
@@ -149,11 +149,11 @@ class ListEntityValidatorTest {
                 "timestamp": null
             }"""
 
-        assertThrowException<MissingRequiredValueException>(nullHeadingEntity, validator)
-        assertThrowException<MissingRequiredValueException>(nullDescriptionEntity, validator)
-        assertThrowException<MissingRequiredValueException>(nullTagEntity, validator)
-        assertThrowException<MissingRequiredValueException>(nullEntityTypeEntity, validator)
-        assertThrowException<MissingRequiredValueException>(nullTimestampEntity, validator)
+        Utils.assertThrowException<MissingRequiredValueException>(nullHeadingEntity, validator)
+        Utils.assertThrowException<MissingRequiredValueException>(nullDescriptionEntity, validator)
+        Utils.assertThrowException<MissingRequiredValueException>(nullTagEntity, validator)
+        Utils.assertThrowException<MissingRequiredValueException>(nullEntityTypeEntity, validator)
+        Utils.assertThrowException<MissingRequiredValueException>(nullTimestampEntity, validator)
     }
 
     @Test(expected = IncorrectValueException::class)
@@ -204,19 +204,6 @@ class ListEntityValidatorTest {
                 "timestamp": "2019-09-12 09:20:26"
             }"""
 
-        assertThrowException<IllegalDateFormatException>(entity, Traffic.TrafficValidator())
-    }
-
-    private inline fun <reified T> assertThrowException(data: String, validator: EntityValidator) {
-        try {
-            validator.validate(JSONObject(data))
-            throw MissingExceptionException(T::class, data)
-        } catch (e: Exception) {
-            if (e is MissingExceptionException) {
-                throw MissingExceptionException(T::class, data)
-            } else if (e !is T) {
-                throw IncorrectExceptionException(T::class, e::class, data)
-            }
-        }
+        Utils.assertThrowException<IllegalDateFormatException>(entity, Traffic.TrafficValidator())
     }
 }

@@ -38,7 +38,7 @@ class MapMarker(data: JSONObject): MapEntity(data) {
         }
     }
 
-    private class MapMarkerValidator: MapValidator() {
+    internal class MapMarkerValidator: MapValidator() {
         override fun validate(data: JSONObject) {
             super.validate(data)
 
@@ -64,7 +64,7 @@ class MapPolyline(data: JSONObject): MapEntity(data) {
         }
     }
 
-    private class MapPolylineValidator: MapValidator() {
+    internal class MapPolylineValidator: MapValidator() {
         override fun validate(data: JSONObject) {
             super.validate(data)
 
@@ -90,7 +90,7 @@ class MapPolygon(data: JSONObject): MapEntity(data) {
         }
     }
 
-    private class MapPolygonValidator: MapValidator() {
+    internal class MapPolygonValidator: MapValidator() {
         override fun validate(data: JSONObject) {
             super.validate(data)
 
@@ -135,7 +135,7 @@ class MapStyle(data: JSONObject) {
     }
 }
 
-private open class MapValidator: EntityValidator() {
+internal open class MapValidator: EntityValidator() {
     @Throws(VDException::class)
     override fun validate(data: JSONObject) {
         super.validate(data)
