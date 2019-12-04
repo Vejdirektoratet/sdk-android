@@ -45,7 +45,6 @@ class Feed {
                 val entity = mapEntity(entities.getJSONObject(i), viewType)
                 mappedEntities.add(entity)
             } catch (e: VDException) {
-                // TODO Log exception before continuing!
                 continue
             }
         }

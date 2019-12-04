@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val bounds = VDBounds(VDLatLng(56.1417197,10.1479164), VDLatLng(56.1954316,10.2435318))
+        val bounds = VDBounds(VDLatLng(56.004548, 9.739952), VDLatLng(56.377372, 10.388643))
 
         val listRequest = VejdirektoratetSDK.request(entityTypes = listOf(EntityType.TRAFFIC, EntityType.ROADWORK), region = bounds, viewType = ViewType.LIST, apiKey = apiKey) { result: Feed.Result ->
             when (result) {
@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         }
         //listRequest.cancel()
 
-        val mapRequest = VejdirektoratetSDK.request(entityTypes = listOf(EntityType.TRAFFIC, EntityType.ROADWORK), region = bounds, viewType = ViewType.MAP, apiKey = apiKey) { result: Feed.Result ->
+        val mapRequest = VejdirektoratetSDK.request(entityTypes = listOf(EntityType.TRAFFIC_DENSITY), region = bounds, viewType = ViewType.MAP, apiKey = apiKey) { result: Feed.Result ->
             when (result) {
                 is Feed.Result.Success -> handleSuccess(result, true)
                 is Feed.Result.Error -> handleFailure(result, true)
@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
     private fun handleSuccess(result: Feed.Result.Success, map: Boolean) {
         if (result.entities.isNotEmpty()) {
             this@MainActivity.runOnUiThread {
-                val description = result.entities.joinToString(separator = "\n") { entity -> if (entity is ListEntity) entity.description else (entity as MapEntity).type.value}
+                val description = result.entities.joinToString(separator = "\n") { entity -> if (entity is ListEntity) entity.description else (entity as MapEntity).style.id}
                 updateTexts(description, map)
             }
         }

@@ -56,10 +56,12 @@ internal open class ValueValidator(private val optional: Boolean = false, privat
     }
 }
 
-internal class StringValidator(validValues: List<Any>? = null): ValueValidator(validValues = validValues) {
+internal class StringValidator(optional: Boolean = false, validValues: List<Any>? = null): ValueValidator(optional, validValues) {
     override fun validate(data: Any?) {
         super.validate(data)
-        checkType<String>(data)
+        if (data != null && !data.equals(null)) {
+            checkType<String>(data)
+        }
     }
 }
 

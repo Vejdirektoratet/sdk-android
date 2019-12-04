@@ -107,7 +107,7 @@ class MapPolygon(data: JSONObject): MapEntity(data) {
 
 class MapStyle(data: JSONObject) {
     val id: String = data.getString(Constants.ID)
-    val icon: String = data.getString(Constants.ICON)
+    val icon: String? = data.getString(Constants.ICON)
     val dashColor: String = data.getString(Constants.DASH_COLOR)
     val dashed: Boolean = data.getBoolean(Constants.DASHED)
     val fillColor: String = data.getString(Constants.FILL_COLOR)
@@ -124,7 +124,7 @@ class MapStyle(data: JSONObject) {
 
         internal val validator = DictionaryValidator(fields = mapOf(
             Constants.ID to StringValidator(),
-            Constants.ICON to StringValidator(),
+            Constants.ICON to StringValidator(true),
             Constants.DASH_COLOR to StringValidator(),
             Constants.DASHED to BooleanValidator(),
             Constants.FILL_COLOR to StringValidator(),

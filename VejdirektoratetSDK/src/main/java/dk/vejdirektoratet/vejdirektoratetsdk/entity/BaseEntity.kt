@@ -37,7 +37,7 @@ internal open class EntityValidator {
     @Throws(VDException::class)
     open fun validate(data: JSONObject) {
         DictionaryValidator(fields = mapOf(
-            Constants.ENTITY_TYPE to StringValidator(validEntityTypes.keys.toList()),
+            Constants.ENTITY_TYPE to StringValidator(validValues = validEntityTypes.keys.toList()),
             Constants.TAG to StringValidator()
         )).validate(data)
     }

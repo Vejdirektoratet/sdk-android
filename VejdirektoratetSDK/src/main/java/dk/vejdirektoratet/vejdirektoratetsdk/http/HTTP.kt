@@ -13,7 +13,6 @@ import com.github.kittinunf.fuel.core.requests.isCancelled
 import com.github.kittinunf.fuel.httpGet
 import dk.vejdirektoratet.vejdirektoratetsdk.*
 import dk.vejdirektoratet.vejdirektoratetsdk.Constants
-import dk.vejdirektoratet.vejdirektoratetsdk.EmptyURLException
 import com.github.kittinunf.result.Result as FuelResult
 import org.json.JSONArray
 
