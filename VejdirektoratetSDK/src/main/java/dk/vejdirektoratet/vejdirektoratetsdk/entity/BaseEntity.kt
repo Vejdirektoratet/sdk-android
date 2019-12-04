@@ -12,6 +12,12 @@ import dk.vejdirektoratet.vejdirektoratetsdk.Constants
 import dk.vejdirektoratet.vejdirektoratetsdk.VDException
 import org.json.JSONObject
 
+internal val validEntityTypes = mapOf(
+    Constants.LATEX_TRAFFIC to BaseEntity.EntityType.Traffic,
+    Constants.LATEX_ROADWORK to BaseEntity.EntityType.RoadWork,
+    Constants.VD_GEO_INRIX_SEGMENT to BaseEntity.EntityType.RoadSegment
+)
+
 open class BaseEntity(data: JSONObject) {
     enum class EntityType {
         Traffic,
@@ -19,14 +25,11 @@ open class BaseEntity(data: JSONObject) {
         RoadSegment
     }
 
-    val entityType: EntityType? = entityTypeFromString(data.getString(Constants.ENTITY_TYPE))
+    val entityType: EntityType = entityTypeFromString(data.getString(Constants.ENTITY_TYPE))!!
     val tag: String = data.getString(Constants.TAG)
 
-    private fun entityTypeFromString(type: String) = when(type) {
-        Constants.LATEX_TRAFFIC -> EntityType.Traffic
-        Constants.LATEX_ROADWORK -> EntityType.RoadWork
-        Constants.VD_GEO_INRIX_SEGMENT -> EntityType.RoadSegment
-        else -> null
+    private fun entityTypeFromString(entityType: String): EntityType? {
+        return validEntityTypes[entityType]
     }
 }
 
@@ -34,7 +37,7 @@ internal open class EntityValidator {
     @Throws(VDException::class)
     open fun validate(data: JSONObject) {
         DictionaryValidator(fields = mapOf(
-            Constants.ENTITY_TYPE to StringValidator(listOf(Constants.LATEX_TRAFFIC, Constants.LATEX_ROADWORK, Constants.VD_GEO_INRIX_SEGMENT)),
+            Constants.ENTITY_TYPE to StringValidator(validEntityTypes.keys.toList()),
             Constants.TAG to StringValidator()
         )).validate(data)
     }
