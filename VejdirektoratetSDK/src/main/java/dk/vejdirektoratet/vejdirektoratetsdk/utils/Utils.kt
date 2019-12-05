@@ -15,6 +15,7 @@ import dk.vejdirektoratet.vejdirektoratetsdk.Constants
 import dk.vejdirektoratet.vejdirektoratetsdk.IllegalDateFormatException
 import dk.vejdirektoratet.vejdirektoratetsdk.entity.EntityValidator
 import dk.vejdirektoratet.vejdirektoratetsdk.entity.MapEntity.MapType
+import dk.vejdirektoratet.vejdirektoratetsdk.entity.Validator
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
@@ -60,11 +61,25 @@ internal object Utils {
             validator.validate(JSONObject(data))
             throw MissingExceptionException(T::class, data)
         } catch (e: Exception) {
-            if (e is MissingExceptionException) {
-                throw MissingExceptionException(T::class, data)
-            } else if (e !is T) {
-                throw IncorrectExceptionException(T::class, e::class, data)
-            }
+            handleException<T>(e, data)
+        }
+    }
+
+    internal inline fun <reified T> assertThrowException(data: String, validator: Validator) {
+        try {
+            validator.validate(JSONObject(data))
+            throw MissingExceptionException(T::class, data)
+        } catch (e: Exception) {
+            handleException<T>(e, data)
+        }
+    }
+
+    @Throws(VDException::class)
+    private inline fun <reified T> handleException(e: Exception, data: String) {
+        if (e is MissingExceptionException) {
+            throw MissingExceptionException(T::class, data)
+        } else if (e !is T) {
+            throw IncorrectExceptionException(T::class, e::class, data)
         }
     }
 }
