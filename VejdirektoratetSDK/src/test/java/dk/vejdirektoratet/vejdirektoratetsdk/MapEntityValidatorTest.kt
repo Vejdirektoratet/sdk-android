@@ -652,7 +652,7 @@ class MapEntityValidatorTest {
         Utils.assertThrowException<MissingRequiredValueException>(nullStrokeColorStyle, validator)
         Utils.assertThrowException<MissingRequiredValueException>(nullStrokeWidthStyle, validator)
         Utils.assertThrowException<MissingRequiredValueException>(nullFillColorStyle, validator)
-        validator.validate(JSONObject(nullIconStyle)) // icon is optional, so it's allowed to be null
+        validator.validate(JSONObject(nullIconStyle)) // icon is optional, so it should be allowed to be null
         Utils.assertThrowException<MissingRequiredValueException>(nullDashedStyle, validator)
         Utils.assertThrowException<MissingRequiredValueException>(nullDashColorStyle, validator)
         Utils.assertThrowException<MissingRequiredValueException>(nullZIndexStyle, validator)

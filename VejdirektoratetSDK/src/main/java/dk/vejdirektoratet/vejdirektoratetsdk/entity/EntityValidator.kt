@@ -84,7 +84,7 @@ internal class TimestampValidator: ValueValidator() {
         super.validate(data)
         checkType<String>(data)
 
-        if (data != null) {
+        if (data != null && !data.equals(null)) {
             Utils.dateFromIso8601String(data as String)
         }
     }
