@@ -45,7 +45,6 @@ internal class Constants {
         private const val BASE_URL = BuildConfig.SERVER_URL
         const val BASE_URL_LIST = "${BASE_URL}list/snapshot"
         const val BASE_URL_MAP = "${BASE_URL}map/snapshot"
-        const val BASE_URL_GEO = ""
     }
 }
 

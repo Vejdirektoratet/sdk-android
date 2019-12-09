@@ -31,7 +31,7 @@ internal object Utils {
         }
     }
 
-    fun VDBoundsToLatLngBounds(vdBounds: VDBounds): LatLngBounds {
+    fun vdBoundsToLatLngBounds(vdBounds: VDBounds): LatLngBounds {
         val southWest = LatLng(vdBounds.southWest.lat, vdBounds.southWest.lng)
         val northEast = LatLng(vdBounds.northEast.lat, vdBounds.northEast.lng)
         return LatLngBounds(southWest, northEast)
@@ -56,7 +56,7 @@ internal object Utils {
         return VDBounds(southWest, northEast)
     }
 
-    internal inline fun <reified T> assertThrowException(data: String, validator: EntityValidator) {
+    inline fun <reified T> assertThrowException(data: String, validator: EntityValidator) {
         try {
             validator.validate(JSONObject(data))
             throw MissingExceptionException(T::class, data)
@@ -65,7 +65,7 @@ internal object Utils {
         }
     }
 
-    internal inline fun <reified T> assertThrowException(data: String, validator: Validator) {
+    inline fun <reified T> assertThrowException(data: String, validator: Validator) {
         try {
             validator.validate(JSONObject(data))
             throw MissingExceptionException(T::class, data)

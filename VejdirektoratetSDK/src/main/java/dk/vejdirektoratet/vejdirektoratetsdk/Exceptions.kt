@@ -10,9 +10,7 @@ package dk.vejdirektoratet.vejdirektoratetsdk
 
 internal open class VDException(message: String): Exception(message)
 internal class UnknownEntityTypeException(message: String): VDException(message)
-internal class UnknownViewTypeException(message: String): VDException(message)
 internal class UnknownMapTypeException(message: String): VDException(message)
-internal class InvalidEntityException(message: String): VDException(message)
 
 internal class IncorrectValueException(expectedValues: Any, actualValue: Any?): VDException("expectedValues: $expectedValues, actualValue: $actualValue")
 internal class IncorrectTypeException(expectedType: Any, actualType: Any?, data: Any?): VDException("expectedType: $expectedType, actualType: $actualType, data: $data")

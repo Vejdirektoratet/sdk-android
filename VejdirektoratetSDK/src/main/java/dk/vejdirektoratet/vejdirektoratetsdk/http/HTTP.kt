@@ -16,6 +16,11 @@ import dk.vejdirektoratet.vejdirektoratetsdk.Constants
 import com.github.kittinunf.result.Result as FuelResult
 import org.json.JSONArray
 
+/**
+ *  A request that can be cancelled
+ *
+ *  @property request the network request
+ */
 class VDRequest(private val request: CancellableRequest) {
     fun cancel() {
         request.cancel()
@@ -32,8 +37,7 @@ internal class HTTP {
 
     private val baseUrl = mapOf(
         ViewType.LIST to Constants.BASE_URL_LIST,
-        ViewType.MAP to Constants.BASE_URL_MAP,
-        ViewType.GEO to Constants.BASE_URL_GEO
+        ViewType.MAP to Constants.BASE_URL_MAP
     )
 
     internal fun request(entityTypes: List<EntityType>, region: VDBounds?, zoom: Int?, viewType: ViewType, apiKey: String, onCompletion: (result: Result) -> Unit): VDRequest {

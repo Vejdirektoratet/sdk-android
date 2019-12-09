@@ -19,9 +19,29 @@ import org.json.JSONObject
 
 class Feed {
 
+    /**
+     * Defines all possible results of a request
+     */
     sealed class Result {
+        /**
+         * The response of a successful request
+         *
+         * Extends [Result] with a MutableList of entities
+         */
         class Success(val entities: MutableList<BaseEntity>): Result()
+
+        /**
+         * The response of a failed request
+         *
+         * Extends [Result] with an Exception
+         */
         open class Error(open val exception: Exception): Result()
+
+        /**
+         * The response of a request with a http status code different from 200
+         *
+         * Extends [Result.Error] with the status code of the http response
+         */
         class HttpError(override val exception: Exception, val statusCode: Int): Error(exception)
     }
 
@@ -55,7 +75,6 @@ class Feed {
     private fun mapEntity(entity: JSONObject, viewType: ViewType): BaseEntity = when (viewType) {
         ViewType.LIST -> mapListEntity(entity)
         ViewType.MAP -> mapMapEntity(entity)
-        else -> throw UnknownViewTypeException("Unknown ViewType! $viewType")
     }
 
     private fun mapListEntity(entity: JSONObject): BaseEntity {

@@ -50,7 +50,7 @@ class UtilsTest {
         val northEast = VDLatLng(northEastLat, northEastLng)
 
         val vdBounds = VDBounds(southWest, northEast)
-        val latLngBounds = Utils.VDBoundsToLatLngBounds(vdBounds)
+        val latLngBounds = Utils.vdBoundsToLatLngBounds(vdBounds)
 
         asserter.assertTrue("Should be of type LatLngBounds", latLngBounds is LatLngBounds)
         asserter.assertEquals("Should have the correct latitude for southWest", vdBounds.southWest.lat, latLngBounds.southwest.latitude)

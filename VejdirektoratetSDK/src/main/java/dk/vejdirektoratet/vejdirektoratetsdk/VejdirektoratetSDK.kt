@@ -14,6 +14,15 @@ import dk.vejdirektoratet.vejdirektoratetsdk.feed.Feed
 import dk.vejdirektoratet.vejdirektoratetsdk.http.VDRequest
 import dk.vejdirektoratet.vejdirektoratetsdk.utils.Utils
 
+/**
+ * An enum describing the available entity types
+ *
+ * [TRAFFIC] traffic events
+ * [ROADWORK] roadwork events
+ * [TRAFFIC_DENSITY] congestion level of road segments
+ * [WINTER_DEICING] deicing status of road segments
+ * [WINTER_CONDITION] condition of road segments with respect to slipperiness
+ */
 enum class EntityType(val value: String) {
     TRAFFIC("traffic"),
     ROADWORK("roadworks"),
@@ -22,31 +31,78 @@ enum class EntityType(val value: String) {
     WINTER_CONDITION("wintercondition"),
 }
 
+/**
+ * An enum describing the available view types
+ *
+ * [LIST] returns entities suitable for non-map representation
+ * [MAP] returns entities suitable for map representation
+ */
 enum class ViewType {
     LIST,
-    MAP,
-    GEO
+    MAP
 }
 
 class VejdirektoratetSDK {
 
     companion object {
+        /**
+         * A method to request entities
+         *
+         * @param entityTypes the desired [EntityType]'s to be returned in the callback
+         * @param region the region from which to get entities
+         * @param zoom Google-like zoom level to determine the detail level
+         * @param viewType the desired [ViewType] for which to display the entities
+         * @param apiKey the API key should be acquired from https://nap.vd.dk/
+         * @param onCompletion the callback method which will receive the entities in from of a [Feed.Result]
+         * @return [VDRequest] returns a cancellable request
+         */
         fun request(entityTypes: List<EntityType>, region: VDBounds?, zoom: Int? = Int.MAX_VALUE, viewType: ViewType, apiKey: String, onCompletion: (result: Feed.Result) -> Unit): VDRequest {
             return Feed().request(entityTypes, region, zoom, viewType, apiKey, onCompletion)
         }
 
+        /**
+         * A method to request entities
+         *
+         * @param entityTypes the desired [EntityType]'s to be returned in the callback
+         * @param region the region from which to get entities
+         * @param zoom Google-like zoom level to determine the detail level
+         * @param viewType the desired [ViewType] for which to display the entities
+         * @param apiKey the API key should be acquired from https://nap.vd.dk/
+         * @param onCompletion the callback method which will receive the entities in from of a [Feed.Result]
+         * @return [VDRequest] returns a cancellable request
+         */
         fun request(entityTypes: List<EntityType>, region: LatLngBounds, zoom: Int? = Int.MAX_VALUE, viewType: ViewType, apiKey: String, onCompletion: (result: Feed.Result) -> Unit): VDRequest {
             return request(entityTypes, Utils.latLngBoundsToVDBounds(region), zoom, viewType, apiKey, onCompletion)
         }
     }
 }
 
+/**
+ * A geographical point represented by a latitude and a longitude
+ *
+ * A data class wrapping a latitude and a longitude into an object
+ *
+ * @property lat the latitude as a Double
+ * @property lng the longitude as a Double
+ */
 data class VDLatLng(val lat: Double, val lng: Double)
 
+/**
+ * Converting a [VDLatLng] into a Google Maps [LatLng] object
+ *
+ * An extension function extending the [VDLatLng] data class,
+ * enabling easy conversion from [VDLatLng] to Google Maps [LatLng]
+ */
 fun VDLatLng.asLatLng(): LatLng {
     return Utils.vdLatLngToLatLng(this)
 }
 
+/**
+ * Converting a MutableList of [VDLatLng] into a MutableList of Google Maps [LatLng] object
+ *
+ * An extension function extending the [VDLatLng] data class,
+ * enabling easily converting MutableLists of [VDLatLng] into MutableList of Google Maps [LatLng]
+ */
 fun MutableList<VDLatLng>.asLatLng(): MutableList<LatLng> {
     val latLngs: MutableList<LatLng> = mutableListOf()
 
@@ -57,17 +113,38 @@ fun MutableList<VDLatLng>.asLatLng(): MutableList<LatLng> {
     return latLngs
 }
 
+/**
+ * A geographical region spanned by two [VDLatLng] objects
+ *
+ * A data class wrapping two [VDLatLng] objects representing the south west
+ * and north east boarders of the geographical region
+ *
+ * @property southWest the south west boarder of the region
+ * @property northEast the north east boarder of the region
+ */
 data class VDBounds(val southWest: VDLatLng, val northEast: VDLatLng)
 
+/**
+ * Converting a [VDBounds] into a Google Maps [LatLngBounds] object
+ *
+ * An extension function extending the [VDBounds] data class,
+ * enabling easy conversion from [VDBounds] to Google Maps [LatLngBounds]
+ */
 fun VDBounds.asLatLngBounds(): LatLngBounds {
-    return Utils.VDBoundsToLatLngBounds(this)
+    return Utils.vdBoundsToLatLngBounds(this)
 }
 
+/**
+ * Converting a MutableList of [VDBounds] into a MutableList of Google Maps [LatLngBounds] object
+ *
+ * An extension function extending the [VDBounds] data class,
+ * enabling easily converting MutableLists of [VDBounds] into MutableList of Google Maps [LatLngBounds]
+ */
 fun MutableList<VDBounds>.asLatLngBounds(): MutableList<LatLngBounds> {
     val latlngBounds: MutableList<LatLngBounds> = mutableListOf()
 
     for (i in 0 until this.size) {
-        latlngBounds.add(Utils.VDBoundsToLatLngBounds(this[i]))
+        latlngBounds.add(Utils.vdBoundsToLatLngBounds(this[i]))
     }
 
     return latlngBounds
