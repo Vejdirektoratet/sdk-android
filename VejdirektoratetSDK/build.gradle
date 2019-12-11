@@ -45,6 +45,23 @@ android {
 
 }
 
+configurations {
+    ktlint
+}
+
+dependencies {
+    // ktlint
+    ktlint "com.github.shyiko:ktlint:0.15.0"
+}
+
+task ktlint(type: JavaExec, group: "verification") {
+    description = "Check Kotlin code style."
+    classpath = configurations.ktlint
+    main = "com.github.shyiko.ktlint.Main"
+    args "src/**/*.kt"
+    // args "--reporter=checkstyle, output=${buildDir}/ktlint.xml
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
