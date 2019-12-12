@@ -32,7 +32,7 @@ internal open class Validator {
     open fun validate(data: Any?) {}
 }
 
-internal open class ValueValidator(private val optional: Boolean = false, private val validValues: List<Any>? = null): Validator() {
+internal open class ValueValidator(private val optional: Boolean = false, private val validValues: List<Any>? = null) : Validator() {
 
     override fun validate(data: Any?) {
         if (data == null || data.equals(null)) {
@@ -56,7 +56,7 @@ internal open class ValueValidator(private val optional: Boolean = false, privat
     }
 }
 
-internal class StringValidator(optional: Boolean = false, validValues: List<Any>? = null): ValueValidator(optional, validValues) {
+internal class StringValidator(optional: Boolean = false, validValues: List<Any>? = null) : ValueValidator(optional, validValues) {
     override fun validate(data: Any?) {
         super.validate(data)
         if (data != null && !data.equals(null)) {
@@ -65,21 +65,21 @@ internal class StringValidator(optional: Boolean = false, validValues: List<Any>
     }
 }
 
-internal class NumberValidator: ValueValidator() {
+internal class NumberValidator : ValueValidator() {
     override fun validate(data: Any?) {
         super.validate(data)
         checkType<Number>(data)
     }
 }
 
-internal class BooleanValidator: ValueValidator() {
+internal class BooleanValidator : ValueValidator() {
     override fun validate(data: Any?) {
         super.validate(data)
         checkType<Boolean>(data)
     }
 }
 
-internal class TimestampValidator: ValueValidator() {
+internal class TimestampValidator : ValueValidator() {
     override fun validate(data: Any?) {
         super.validate(data)
         checkType<String>(data)
@@ -90,7 +90,7 @@ internal class TimestampValidator: ValueValidator() {
     }
 }
 
-internal class DictionaryValidator(private val optional: Boolean = false, private val fields: Map<String, Validator>): ValueValidator(optional) {
+internal class DictionaryValidator(private val optional: Boolean = false, private val fields: Map<String, Validator>) : ValueValidator(optional) {
     override fun validate(data: Any?) {
         super.validate(data)
 
@@ -113,7 +113,7 @@ internal class DictionaryValidator(private val optional: Boolean = false, privat
     }
 }
 
-internal class ArrayValidator(optional: Boolean = false, private val ignoreInvalidEntries: Boolean = false, private val validator: Validator): ValueValidator(optional) {
+internal class ArrayValidator(optional: Boolean = false, private val ignoreInvalidEntries: Boolean = false, private val validator: Validator) : ValueValidator(optional) {
     override fun validate(data: Any?) {
         super.validate(data)
 

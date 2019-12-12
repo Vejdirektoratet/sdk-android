@@ -17,7 +17,7 @@ import org.json.JSONObject
 internal object JSONUtils {
 
     fun latLngFromJson(latLngObject: JSONObject): VDLatLng {
-       return VDLatLng(latLngObject.getDouble(Constants.LATITUDE), latLngObject.getDouble(Constants.LONGITUDE))
+        return VDLatLng(latLngObject.getDouble(Constants.LATITUDE), latLngObject.getDouble(Constants.LONGITUDE))
     }
 
     fun latLongListFromJson(listJsonArray: JSONArray): MutableList<VDLatLng> {
@@ -39,5 +39,4 @@ internal object JSONUtils {
 
         return VDBounds(southWest, northEast)
     }
-
 }

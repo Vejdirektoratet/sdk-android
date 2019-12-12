@@ -11,7 +11,9 @@ package dk.vejdirektoratet.vejdirektoratetsdk.http
 import com.github.kittinunf.fuel.core.requests.CancellableRequest
 import com.github.kittinunf.fuel.core.requests.isCancelled
 import com.github.kittinunf.fuel.httpGet
-import dk.vejdirektoratet.vejdirektoratetsdk.*
+import dk.vejdirektoratet.vejdirektoratetsdk.ViewType
+import dk.vejdirektoratet.vejdirektoratetsdk.EntityType
+import dk.vejdirektoratet.vejdirektoratetsdk.VDBounds
 import dk.vejdirektoratet.vejdirektoratetsdk.Constants
 import com.github.kittinunf.result.Result as FuelResult
 import org.json.JSONArray
@@ -30,9 +32,9 @@ class VDRequest(private val request: CancellableRequest) {
 internal class HTTP {
 
     sealed class Result {
-        class Success(val data: JSONArray): Result()
-        open class Error(open val exception: Exception): Result()
-        class HttpError(override val exception: Exception, val statusCode: Int): Error(exception)
+        class Success(val data: JSONArray) : Result()
+        open class Error(open val exception: Exception) : Result()
+        class HttpError(override val exception: Exception, val statusCode: Int) : Error(exception)
     }
 
     private val baseUrl = mapOf(

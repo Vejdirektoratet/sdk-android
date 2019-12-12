@@ -8,9 +8,19 @@
 
 package dk.vejdirektoratet.vejdirektoratetsdk.feed
 
-import dk.vejdirektoratet.vejdirektoratetsdk.*
+import dk.vejdirektoratet.vejdirektoratetsdk.EntityType
+import dk.vejdirektoratet.vejdirektoratetsdk.VDBounds
+import dk.vejdirektoratet.vejdirektoratetsdk.ViewType
+import dk.vejdirektoratet.vejdirektoratetsdk.VDException
+import dk.vejdirektoratet.vejdirektoratetsdk.UnknownEntityTypeException
+import dk.vejdirektoratet.vejdirektoratetsdk.UnknownMapTypeException
 import dk.vejdirektoratet.vejdirektoratetsdk.Constants
-import dk.vejdirektoratet.vejdirektoratetsdk.entity.*
+import dk.vejdirektoratet.vejdirektoratetsdk.entity.BaseEntity
+import dk.vejdirektoratet.vejdirektoratetsdk.entity.Traffic
+import dk.vejdirektoratet.vejdirektoratetsdk.entity.Roadwork
+import dk.vejdirektoratet.vejdirektoratetsdk.entity.MapMarker
+import dk.vejdirektoratet.vejdirektoratetsdk.entity.MapPolyline
+import dk.vejdirektoratet.vejdirektoratetsdk.entity.MapPolygon
 import dk.vejdirektoratet.vejdirektoratetsdk.http.HTTP
 import dk.vejdirektoratet.vejdirektoratetsdk.entity.MapEntity.MapType
 import dk.vejdirektoratet.vejdirektoratetsdk.http.VDRequest
@@ -28,21 +38,21 @@ class Feed {
          *
          * Extends [Result] with a MutableList of entities
          */
-        class Success(val entities: MutableList<BaseEntity>): Result()
+        class Success(val entities: MutableList<BaseEntity>) : Result()
 
         /**
          * The response of a failed request
          *
          * Extends [Result] with an Exception
          */
-        open class Error(open val exception: Exception): Result()
+        open class Error(open val exception: Exception) : Result()
 
         /**
          * The response of a request with a http status code different from 200
          *
          * Extends [Result.Error] with the status code of the http response
          */
-        class HttpError(override val exception: Exception, val statusCode: Int): Error(exception)
+        class HttpError(override val exception: Exception, val statusCode: Int) : Error(exception)
     }
 
     internal fun request(entityTypes: List<EntityType>, region: VDBounds?, zoom: Int?, viewType: ViewType, apiKey: String, onCompletion: (result: Result) -> Unit): VDRequest {
@@ -82,7 +92,7 @@ class Feed {
             val entityType = entity.get(Constants.ENTITY_TYPE)
 
             if (entityType is String) {
-                return when(entityType) {
+                return when (entityType) {
                     Constants.LATEX_TRAFFIC -> Traffic.fromEntity(entity)
                     Constants.LATEX_ROADWORK -> Roadwork.fromEntity(entity)
                     else -> throw UnknownEntityTypeException("Unknown EntityType! $entity")
@@ -97,7 +107,7 @@ class Feed {
             val type = entity.get(Constants.TYPE)
 
             if (type is String) {
-                return when(type) {
+                return when (type) {
                     MapType.MARKER.value -> MapMarker.fromEntity(entity)
                     MapType.POLYLINE.value -> MapPolyline.fromEntity(entity)
                     MapType.POLYGON.value -> MapPolygon.fromEntity(entity)

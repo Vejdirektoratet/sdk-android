@@ -24,7 +24,6 @@ class HttpTest {
         mockServer.start(BuildConfig.SERVER_PORT)
     }
 
-
     @AfterTest
     fun teardown() {
         mockServer.shutdown()

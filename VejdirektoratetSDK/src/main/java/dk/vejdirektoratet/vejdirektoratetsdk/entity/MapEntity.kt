@@ -15,7 +15,7 @@ import dk.vejdirektoratet.vejdirektoratetsdk.utils.JSONUtils
 import dk.vejdirektoratet.vejdirektoratetsdk.utils.Utils
 import org.json.JSONObject
 
-open class MapEntity(data: JSONObject): BaseEntity(data) {
+open class MapEntity(data: JSONObject) : BaseEntity(data) {
     val type: MapType = Utils.mapTypeFromString(data.getString(Constants.TYPE))
     val style: MapStyle = MapStyle.fromEntity(data.getJSONObject(Constants.STYLE))
 
@@ -27,7 +27,7 @@ open class MapEntity(data: JSONObject): BaseEntity(data) {
     }
 }
 
-class MapMarker(data: JSONObject): MapEntity(data) {
+class MapMarker(data: JSONObject) : MapEntity(data) {
     val center: VDLatLng = JSONUtils.latLngFromJson(data.getJSONObject(Constants.CENTER))
 
     companion object {
@@ -38,7 +38,7 @@ class MapMarker(data: JSONObject): MapEntity(data) {
         }
     }
 
-    internal class MapMarkerValidator: MapValidator() {
+    internal class MapMarkerValidator : MapValidator() {
         override fun validate(data: JSONObject) {
             super.validate(data)
 
@@ -53,7 +53,7 @@ class MapMarker(data: JSONObject): MapEntity(data) {
     }
 }
 
-class MapPolyline(data: JSONObject): MapEntity(data) {
+class MapPolyline(data: JSONObject) : MapEntity(data) {
     val points: MutableList<VDLatLng> = JSONUtils.latLongListFromJson(data.getJSONArray(Constants.POINTS))
 
     companion object {
@@ -64,7 +64,7 @@ class MapPolyline(data: JSONObject): MapEntity(data) {
         }
     }
 
-    internal class MapPolylineValidator: MapValidator() {
+    internal class MapPolylineValidator : MapValidator() {
         override fun validate(data: JSONObject) {
             super.validate(data)
 
@@ -79,7 +79,7 @@ class MapPolyline(data: JSONObject): MapEntity(data) {
     }
 }
 
-class MapPolygon(data: JSONObject): MapEntity(data) {
+class MapPolygon(data: JSONObject) : MapEntity(data) {
     val points: MutableList<VDLatLng> = JSONUtils.latLongListFromJson(data.getJSONArray(Constants.POINTS))
 
     companion object {
@@ -90,7 +90,7 @@ class MapPolygon(data: JSONObject): MapEntity(data) {
         }
     }
 
-    internal class MapPolygonValidator: MapValidator() {
+    internal class MapPolygonValidator : MapValidator() {
         override fun validate(data: JSONObject) {
             super.validate(data)
 
@@ -135,7 +135,7 @@ class MapStyle(data: JSONObject) {
     }
 }
 
-internal open class MapValidator: EntityValidator() {
+internal open class MapValidator : EntityValidator() {
     @Throws(VDException::class)
     override fun validate(data: JSONObject) {
         super.validate(data)

@@ -8,7 +8,13 @@
 
 package dk.vejdirektoratet.vejdirektoratetsdk
 
-import dk.vejdirektoratet.vejdirektoratetsdk.entity.*
+import dk.vejdirektoratet.vejdirektoratetsdk.entity.BaseEntity
+import dk.vejdirektoratet.vejdirektoratetsdk.entity.ListEntity
+import dk.vejdirektoratet.vejdirektoratetsdk.entity.Traffic
+import dk.vejdirektoratet.vejdirektoratetsdk.entity.Roadwork
+import dk.vejdirektoratet.vejdirektoratetsdk.entity.MapEntity
+import dk.vejdirektoratet.vejdirektoratetsdk.entity.MapMarker
+import dk.vejdirektoratet.vejdirektoratetsdk.entity.MapPolyline
 import dk.vejdirektoratet.vejdirektoratetsdk.feed.Feed
 import dk.vejdirektoratet.vejdirektoratetsdk.utils.Utils
 import okhttp3.mockwebserver.MockResponse
@@ -25,7 +31,6 @@ class FeedTest {
     fun setup() {
         mockServer.start(BuildConfig.SERVER_PORT)
     }
-
 
     @AfterTest
     fun teardown() {

@@ -87,7 +87,6 @@ class MapEntityValidatorTest {
                 "center": {"lat": 55.808418, "lng": 11.582623}
             }"""
 
-
         Utils.assertThrowException<MissingRequiredFieldException>(missingEntityTypeEntity, validator)
         Utils.assertThrowException<MissingRequiredFieldException>(missingTagEntity, validator)
         Utils.assertThrowException<MissingRequiredFieldException>(missingCenterEntity, validator)

@@ -47,4 +47,3 @@ internal class Constants {
         const val BASE_URL_MAP = "${BASE_URL}map/snapshot"
     }
 }
-

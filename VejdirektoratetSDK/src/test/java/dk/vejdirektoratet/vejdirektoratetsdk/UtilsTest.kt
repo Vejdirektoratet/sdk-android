@@ -12,7 +12,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import dk.vejdirektoratet.vejdirektoratetsdk.entity.MapEntity
 import dk.vejdirektoratet.vejdirektoratetsdk.utils.Utils
-import java.util.*
+import java.util.Date
 import kotlin.test.Test
 import kotlin.test.assertFailsWith
 import kotlin.test.asserter
