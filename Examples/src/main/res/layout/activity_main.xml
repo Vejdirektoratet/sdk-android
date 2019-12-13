@@ -7,6 +7,7 @@
     tools:context=".MainActivity">
 
     <RelativeLayout
+        android:id="@+id/text_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -34,21 +35,30 @@
             android:layout_marginTop="16dp"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
-            android:layout_marginBottom="32dp"
             android:text="Message"
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/list_header"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
 
+        <Button
+            android:id="@+id/entity_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="First List Item"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/list_text"/>
+
         <LinearLayout
             android:id="@+id/divider"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginTop="32dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_below="@+id/list_text"
+            android:layout_below="@+id/entity_button"
             android:background="#E8E8E8"/>
 
         <TextView

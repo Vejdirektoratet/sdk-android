@@ -8,10 +8,13 @@
 
 package dk.vejdirektoratet.vejdirektoratetsdkexample
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 
 import dk.vejdirektoratet.vejdirektoratetsdk.*
+import dk.vejdirektoratet.vejdirektoratetsdk.entity.BaseEntity
 import dk.vejdirektoratet.vejdirektoratetsdk.entity.ListEntity
 import dk.vejdirektoratet.vejdirektoratetsdk.entity.MapEntity
 import dk.vejdirektoratet.vejdirektoratetsdk.feed.Feed
@@ -21,6 +24,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     private val apiKey: String = BuildConfig.VD_API_KEY // Add VD apiKey
+    private var listEntities: MutableList<BaseEntity> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,10 +47,23 @@ class MainActivity : AppCompatActivity() {
             }
         }
         //mapRequest.cancel()
+
+        entity_button.setOnClickListener {
+            if (listEntities.isNotEmpty()) {
+                val intent = Intent(this, EntityActivity::class.java)
+                intent.putExtra("entity", listEntities[0])
+                startActivity(intent)
+            } else {
+                Toast.makeText(applicationContext,"No entities", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun handleSuccess(result: Feed.Result.Success, map: Boolean) {
         if (result.entities.isNotEmpty()) {
+            if (!map) {
+                listEntities = result.entities
+            }
             this@MainActivity.runOnUiThread {
                 val description = result.entities.joinToString(separator = "\n") { entity -> if (entity is ListEntity) entity.description else (entity as MapEntity).style.id}
                 updateTexts(description, map)

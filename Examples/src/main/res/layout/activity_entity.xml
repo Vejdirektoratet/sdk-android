@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <RelativeLayout
+        android:id="@+id/entity_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/entity_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Entity"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:id="@+id/entity_tag_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_below="@+id/entity_type">
+
+            <TextView
+                android:id="@+id/entity_tag_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tag:"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/entity_tag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="112dp"
+                android:text="-"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/entity_time_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_below="@+id/entity_tag_container">
+
+            <TextView
+                android:id="@+id/entity_time_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time:"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/entity_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="112dp"
+                android:text="-"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/entity_heading_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_below="@+id/entity_time_container">
+
+            <TextView
+                android:id="@+id/entity_heading_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Heading:"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/entity_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="112dp"
+                android:text="-"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/entity_description_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_below="@+id/entity_heading_container">
+
+            <TextView
+                android:id="@+id/entity_description_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Description:"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/entity_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="112dp"
+                android:text="-"/>
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
