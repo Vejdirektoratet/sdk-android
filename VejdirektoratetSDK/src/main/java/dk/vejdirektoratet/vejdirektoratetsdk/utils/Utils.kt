@@ -28,10 +28,6 @@ import java.util.Date
 
 internal object Utils {
 
-    internal fun baseEntityTypeFromString(entityType: String): BaseEntity.BaseEntityType? {
-        return validEntityTypes[entityType]
-    }
-
     fun dateFromIso8601String(timeString: String): Date {
         try {
             val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX")

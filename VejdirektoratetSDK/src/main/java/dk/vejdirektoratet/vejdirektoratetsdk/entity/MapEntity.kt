@@ -14,7 +14,6 @@ import dk.vejdirektoratet.vejdirektoratetsdk.VDException
 import dk.vejdirektoratet.vejdirektoratetsdk.VDLatLng
 import dk.vejdirektoratet.vejdirektoratetsdk.utils.JSONUtils
 import dk.vejdirektoratet.vejdirektoratetsdk.utils.Utils
-import dk.vejdirektoratet.vejdirektoratetsdk.utils.Utils.baseEntityTypeFromString
 import kotlinx.android.parcel.Parcelize
 import org.json.JSONObject
 

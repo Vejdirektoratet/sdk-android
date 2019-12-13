@@ -31,6 +31,12 @@ open class BaseEntity(val entityType: BaseEntityType, val tag: String) : Parcela
         RoadWork,
         RoadSegment
     }
+
+    companion object {
+        internal fun baseEntityTypeFromString(entityType: String): BaseEntityType? {
+            return validEntityTypes[entityType]
+        }
+    }
 }
 
 internal open class EntityValidator {
