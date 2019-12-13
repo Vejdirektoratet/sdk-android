@@ -27,7 +27,7 @@ open class ListEntity(private val _entityType: BaseEntityType, private val _tag:
 
 @Parcelize
 @TypeParceler<Date, DateParceler>
-class Traffic(private val _entityType: BaseEntityType, private val _tag: String, private val _timestamp: Date, private val _heading: String, private val _description: String, private val _bounds: VDBounds?) : ListEntity(_entityType, _tag, _timestamp, _heading, _description, _bounds) {
+data class Traffic(private val _entityType: BaseEntityType, private val _tag: String, private val _timestamp: Date, private val _heading: String, private val _description: String, private val _bounds: VDBounds?) : ListEntity(_entityType, _tag, _timestamp, _heading, _description, _bounds) {
     companion object {
         @Throws(VDException::class)
         fun fromEntity(data: JSONObject): Traffic {
@@ -47,7 +47,7 @@ class Traffic(private val _entityType: BaseEntityType, private val _tag: String,
 
 @Parcelize
 @TypeParceler<Date, DateParceler>
-class Roadwork(private val _entityType: BaseEntityType, private val _tag: String, private val _timestamp: Date, private val _heading: String, private val _description: String, private val _bounds: VDBounds?) : ListEntity(_entityType, _tag, _timestamp, _heading, _description, _bounds) {
+data class Roadwork(private val _entityType: BaseEntityType, private val _tag: String, private val _timestamp: Date, private val _heading: String, private val _description: String, private val _bounds: VDBounds?) : ListEntity(_entityType, _tag, _timestamp, _heading, _description, _bounds) {
     companion object {
         @Throws(VDException::class)
         fun fromEntity(data: JSONObject): Roadwork {

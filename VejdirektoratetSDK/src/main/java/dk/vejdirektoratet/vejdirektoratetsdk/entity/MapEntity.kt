@@ -29,7 +29,7 @@ open class MapEntity(private val _entityType: BaseEntityType, private val _tag: 
 }
 
 @Parcelize
-class MapMarker(private val _entityType: BaseEntityType, private val _tag: String, private val _type: MapType, private val _style: MapStyle, val center: VDLatLng) : MapEntity(_entityType, _tag, _type, _style) {
+data class MapMarker(private val _entityType: BaseEntityType, private val _tag: String, private val _type: MapType, private val _style: MapStyle, val center: VDLatLng) : MapEntity(_entityType, _tag, _type, _style) {
 
     companion object {
         @Throws(VDException::class)
@@ -60,7 +60,7 @@ class MapMarker(private val _entityType: BaseEntityType, private val _tag: Strin
 }
 
 @Parcelize
-class MapPolyline(private val _entityType: BaseEntityType, private val _tag: String, private val _type: MapType, private val _style: MapStyle, val points: MutableList<VDLatLng>) : MapEntity(_entityType, _tag, _type, _style) {
+data class MapPolyline(private val _entityType: BaseEntityType, private val _tag: String, private val _type: MapType, private val _style: MapStyle, val points: MutableList<VDLatLng>) : MapEntity(_entityType, _tag, _type, _style) {
 
     companion object {
         @Throws(VDException::class)
@@ -91,7 +91,7 @@ class MapPolyline(private val _entityType: BaseEntityType, private val _tag: Str
 }
 
 @Parcelize
-class MapPolygon(private val _entityType: BaseEntityType, private val _tag: String, private val _type: MapType, private val _style: MapStyle, val points: MutableList<VDLatLng>) : MapEntity(_entityType, _tag, _type, _style) {
+data class MapPolygon(private val _entityType: BaseEntityType, private val _tag: String, private val _type: MapType, private val _style: MapStyle, val points: MutableList<VDLatLng>) : MapEntity(_entityType, _tag, _type, _style) {
 
     companion object {
         @Throws(VDException::class)
@@ -122,7 +122,7 @@ class MapPolygon(private val _entityType: BaseEntityType, private val _tag: Stri
 }
 
 @Parcelize
-class MapStyle(val id: String, val icon: String?, val dashColor: String, val dashed: Boolean, val fillColor: String, val strokeColor: String, val strokeWidth: Double, val zIndex: Double) : Parcelable {
+data class MapStyle(val id: String, val icon: String?, val dashColor: String, val dashed: Boolean, val fillColor: String, val strokeColor: String, val strokeWidth: Double, val zIndex: Double) : Parcelable {
 
     companion object {
         @Throws(VDException::class)
