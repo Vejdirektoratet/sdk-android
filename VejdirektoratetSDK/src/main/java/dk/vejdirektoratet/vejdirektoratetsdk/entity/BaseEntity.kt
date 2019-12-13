@@ -8,28 +8,28 @@
 
 package dk.vejdirektoratet.vejdirektoratetsdk.entity
 
+import android.os.Parcelable
 import dk.vejdirektoratet.vejdirektoratetsdk.Constants
+import dk.vejdirektoratet.vejdirektoratetsdk.DateParceler
 import dk.vejdirektoratet.vejdirektoratetsdk.VDException
+import kotlinx.android.parcel.Parcelize
+import kotlinx.android.parcel.TypeParceler
 import org.json.JSONObject
+import java.util.*
 
 internal val validEntityTypes = mapOf(
-    Constants.LATEX_TRAFFIC to BaseEntity.EntityType.Traffic,
-    Constants.LATEX_ROADWORK to BaseEntity.EntityType.RoadWork,
-    Constants.VD_GEO_INRIX_SEGMENT to BaseEntity.EntityType.RoadSegment
+    Constants.LATEX_TRAFFIC to BaseEntity.BaseEntityType.Traffic,
+    Constants.LATEX_ROADWORK to BaseEntity.BaseEntityType.RoadWork,
+    Constants.VD_GEO_INRIX_SEGMENT to BaseEntity.BaseEntityType.RoadSegment
 )
 
-open class BaseEntity(data: JSONObject) {
-    enum class EntityType {
+@Parcelize
+@TypeParceler<Date, DateParceler>
+open class BaseEntity(val entityType: BaseEntityType, val tag: String) : Parcelable {
+    enum class BaseEntityType {
         Traffic,
         RoadWork,
         RoadSegment
-    }
-
-    val entityType: EntityType = entityTypeFromString(data.getString(Constants.ENTITY_TYPE))!!
-    val tag: String = data.getString(Constants.TAG)
-
-    private fun entityTypeFromString(entityType: String): EntityType? {
-        return validEntityTypes[entityType]
     }
 }
 

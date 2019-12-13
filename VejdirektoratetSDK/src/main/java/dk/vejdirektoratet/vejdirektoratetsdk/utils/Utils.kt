@@ -17,14 +17,20 @@ import dk.vejdirektoratet.vejdirektoratetsdk.MissingExceptionException
 import dk.vejdirektoratet.vejdirektoratetsdk.IncorrectExceptionException
 import dk.vejdirektoratet.vejdirektoratetsdk.Constants
 import dk.vejdirektoratet.vejdirektoratetsdk.IllegalDateFormatException
+import dk.vejdirektoratet.vejdirektoratetsdk.entity.BaseEntity
 import dk.vejdirektoratet.vejdirektoratetsdk.entity.EntityValidator
 import dk.vejdirektoratet.vejdirektoratetsdk.entity.MapEntity.MapType
 import dk.vejdirektoratet.vejdirektoratetsdk.entity.Validator
+import dk.vejdirektoratet.vejdirektoratetsdk.entity.validEntityTypes
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.Date
 
 internal object Utils {
+
+    internal fun baseEntityTypeFromString(entityType: String): BaseEntity.BaseEntityType? {
+        return validEntityTypes[entityType]
+    }
 
     fun dateFromIso8601String(timeString: String): Date {
         try {

@@ -8,17 +8,18 @@
 
 package dk.vejdirektoratet.vejdirektoratetsdk.entity
 
+import android.os.Parcelable
 import dk.vejdirektoratet.vejdirektoratetsdk.Constants
 import dk.vejdirektoratet.vejdirektoratetsdk.VDException
 import dk.vejdirektoratet.vejdirektoratetsdk.VDLatLng
 import dk.vejdirektoratet.vejdirektoratetsdk.utils.JSONUtils
 import dk.vejdirektoratet.vejdirektoratetsdk.utils.Utils
+import dk.vejdirektoratet.vejdirektoratetsdk.utils.Utils.baseEntityTypeFromString
+import kotlinx.android.parcel.Parcelize
 import org.json.JSONObject
 
-open class MapEntity(data: JSONObject) : BaseEntity(data) {
-    val type: MapType = Utils.mapTypeFromString(data.getString(Constants.TYPE))
-    val style: MapStyle = MapStyle.fromEntity(data.getJSONObject(Constants.STYLE))
-
+@Parcelize
+open class MapEntity(private val _entityType: BaseEntityType, private val _tag: String, val type: MapType, val style: MapStyle) : BaseEntity(_entityType, _tag) {
     enum class MapType(val value: String) {
         MARKER("MARKER"),
         POLYLINE("POLYLINE"),
@@ -27,14 +28,19 @@ open class MapEntity(data: JSONObject) : BaseEntity(data) {
     }
 }
 
-class MapMarker(data: JSONObject) : MapEntity(data) {
-    val center: VDLatLng = JSONUtils.latLngFromJson(data.getJSONObject(Constants.CENTER))
+@Parcelize
+class MapMarker(private val _entityType: BaseEntityType, private val _tag: String, private val _type: MapType, private val _style: MapStyle, val center: VDLatLng) : MapEntity(_entityType, _tag, _type, _style) {
 
     companion object {
         @Throws(VDException::class)
         fun fromEntity(data: JSONObject): MapEntity {
             MapMarkerValidator().validate(data)
-            return MapMarker(data)
+            val entityType: BaseEntityType = baseEntityTypeFromString(data.getString(Constants.ENTITY_TYPE))!!
+            val tag: String = data.getString(Constants.TAG)
+            val type: MapType = Utils.mapTypeFromString(data.getString(Constants.TYPE))
+            val style: MapStyle = MapStyle.fromEntity(data.getJSONObject(Constants.STYLE))
+            val center: VDLatLng = JSONUtils.latLngFromJson(data.getJSONObject(Constants.CENTER))
+            return MapMarker(entityType, tag, type, style, center)
         }
     }
 
@@ -53,14 +59,19 @@ class MapMarker(data: JSONObject) : MapEntity(data) {
     }
 }
 
-class MapPolyline(data: JSONObject) : MapEntity(data) {
-    val points: MutableList<VDLatLng> = JSONUtils.latLongListFromJson(data.getJSONArray(Constants.POINTS))
+@Parcelize
+class MapPolyline(private val _entityType: BaseEntityType, private val _tag: String, private val _type: MapType, private val _style: MapStyle, val points: MutableList<VDLatLng>) : MapEntity(_entityType, _tag, _type, _style) {
 
     companion object {
         @Throws(VDException::class)
         fun fromEntity(data: JSONObject): MapPolyline {
             MapPolylineValidator().validate(data)
-            return MapPolyline(data)
+            val entityType: BaseEntityType = baseEntityTypeFromString(data.getString(Constants.ENTITY_TYPE))!!
+            val tag: String = data.getString(Constants.TAG)
+            val type: MapType = Utils.mapTypeFromString(data.getString(Constants.TYPE))
+            val style: MapStyle = MapStyle.fromEntity(data.getJSONObject(Constants.STYLE))
+            val points: MutableList<VDLatLng> = JSONUtils.latLongListFromJson(data.getJSONArray(Constants.POINTS))
+            return MapPolyline(entityType, tag, type, style, points)
         }
     }
 
@@ -79,14 +90,19 @@ class MapPolyline(data: JSONObject) : MapEntity(data) {
     }
 }
 
-class MapPolygon(data: JSONObject) : MapEntity(data) {
-    val points: MutableList<VDLatLng> = JSONUtils.latLongListFromJson(data.getJSONArray(Constants.POINTS))
+@Parcelize
+class MapPolygon(private val _entityType: BaseEntityType, private val _tag: String, private val _type: MapType, private val _style: MapStyle, val points: MutableList<VDLatLng>) : MapEntity(_entityType, _tag, _type, _style) {
 
     companion object {
         @Throws(VDException::class)
         fun fromEntity(data: JSONObject): MapPolygon {
             MapPolygonValidator().validate(data)
-            return MapPolygon(data)
+            val entityType: BaseEntityType = baseEntityTypeFromString(data.getString(Constants.ENTITY_TYPE))!!
+            val tag: String = data.getString(Constants.TAG)
+            val type: MapType = Utils.mapTypeFromString(data.getString(Constants.TYPE))
+            val style: MapStyle = MapStyle.fromEntity(data.getJSONObject(Constants.STYLE))
+            val points: MutableList<VDLatLng> = JSONUtils.latLongListFromJson(data.getJSONArray(Constants.POINTS))
+            return MapPolygon(entityType, tag, type, style, points)
         }
     }
 
@@ -105,21 +121,22 @@ class MapPolygon(data: JSONObject) : MapEntity(data) {
     }
 }
 
-class MapStyle(data: JSONObject) {
-    val id: String = data.getString(Constants.ID)
-    val icon: String? = data.getString(Constants.ICON)
-    val dashColor: String = data.getString(Constants.DASH_COLOR)
-    val dashed: Boolean = data.getBoolean(Constants.DASHED)
-    val fillColor: String = data.getString(Constants.FILL_COLOR)
-    val strokeColor: String = data.getString(Constants.STROKE_COLOR)
-    val strokeWidth: Double = data.getDouble(Constants.STROKE_WIDTH)
-    val zIndex: Double = data.getDouble(Constants.Z_INDEX)
+@Parcelize
+class MapStyle(val id: String, val icon: String?, val dashColor: String, val dashed: Boolean, val fillColor: String, val strokeColor: String, val strokeWidth: Double, val zIndex: Double) : Parcelable {
 
     companion object {
         @Throws(VDException::class)
         fun fromEntity(data: JSONObject): MapStyle {
             validator.validate(data)
-            return MapStyle(data)
+            val id: String = data.getString(Constants.ID)
+            val icon: String? = data.getString(Constants.ICON)
+            val dashColor: String = data.getString(Constants.DASH_COLOR)
+            val dashed: Boolean = data.getBoolean(Constants.DASHED)
+            val fillColor: String = data.getString(Constants.FILL_COLOR)
+            val strokeColor: String = data.getString(Constants.STROKE_COLOR)
+            val strokeWidth: Double = data.getDouble(Constants.STROKE_WIDTH)
+            val zIndex: Double = data.getDouble(Constants.Z_INDEX)
+            return MapStyle(id, icon, dashColor, dashed, fillColor, strokeColor, strokeWidth, zIndex)
         }
 
         internal val validator = DictionaryValidator(fields = mapOf(

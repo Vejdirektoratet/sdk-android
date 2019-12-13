@@ -10,38 +10,55 @@ package dk.vejdirektoratet.vejdirektoratetsdk.entity
 
 import dk.vejdirektoratet.vejdirektoratetsdk.VDBounds
 import dk.vejdirektoratet.vejdirektoratetsdk.Constants
+import dk.vejdirektoratet.vejdirektoratetsdk.DateParceler
 import dk.vejdirektoratet.vejdirektoratetsdk.VDException
 import dk.vejdirektoratet.vejdirektoratetsdk.utils.JSONUtils
 import dk.vejdirektoratet.vejdirektoratetsdk.utils.Utils
+import dk.vejdirektoratet.vejdirektoratetsdk.utils.Utils.baseEntityTypeFromString
+import kotlinx.android.parcel.Parcelize
+import kotlinx.android.parcel.TypeParceler
 import org.json.JSONException
 import org.json.JSONObject
 import java.util.Date
 
-open class ListEntity(data: JSONObject) : BaseEntity(data) {
-    val timestamp: Date = Utils.dateFromIso8601String(data.getString(Constants.TIMESTAMP))
-    val heading: String = data.getString(Constants.HEADING)
-    val description: String = data.getString(Constants.DESCRIPTION)
-    val bounds: VDBounds? = try { JSONUtils.vdBoundsFromJson(data.getJSONObject(Constants.BOUNDS)) } catch (e: JSONException) { null }
-}
+@Parcelize
+@TypeParceler<Date, DateParceler>
+open class ListEntity(private val _entityType: BaseEntityType, private val _tag: String, val timestamp: Date, val heading: String, val description: String, val bounds: VDBounds?) : BaseEntity(_entityType, _tag)
 
-class Traffic(data: JSONObject) : ListEntity(data) {
+@Parcelize
+@TypeParceler<Date, DateParceler>
+class Traffic(private val _entityType: BaseEntityType, private val _tag: String, private val _timestamp: Date, private val _heading: String, private val _description: String, private val _bounds: VDBounds?) : ListEntity(_entityType, _tag, _timestamp, _heading, _description, _bounds) {
     companion object {
         @Throws(VDException::class)
         fun fromEntity(data: JSONObject): Traffic {
             TrafficValidator().validate(data)
-            return Traffic(data)
+            val entityType: BaseEntityType = baseEntityTypeFromString(data.getString(Constants.ENTITY_TYPE))!!
+            val tag: String = data.getString(Constants.TAG)
+            val timestamp: Date = Utils.dateFromIso8601String(data.getString(Constants.TIMESTAMP))
+            val heading: String = data.getString(Constants.HEADING)
+            val description: String = data.getString(Constants.DESCRIPTION)
+            val bounds: VDBounds? = try { JSONUtils.vdBoundsFromJson(data.getJSONObject(Constants.BOUNDS)) } catch (e: JSONException) { null }
+            return Traffic(entityType, tag, timestamp, heading, description, bounds)
         }
     }
 
     internal class TrafficValidator : ListValidator()
 }
 
-class Roadwork(data: JSONObject) : ListEntity(data) {
+@Parcelize
+@TypeParceler<Date, DateParceler>
+class Roadwork(private val _entityType: BaseEntityType, private val _tag: String, private val _timestamp: Date, private val _heading: String, private val _description: String, private val _bounds: VDBounds?) : ListEntity(_entityType, _tag, _timestamp, _heading, _description, _bounds) {
     companion object {
         @Throws(VDException::class)
         fun fromEntity(data: JSONObject): Roadwork {
             RoadworkValidator().validate(data)
-            return Roadwork(data)
+            val entityType: BaseEntityType = baseEntityTypeFromString(data.getString(Constants.ENTITY_TYPE))!!
+            val tag: String = data.getString(Constants.TAG)
+            val timestamp: Date = Utils.dateFromIso8601String(data.getString(Constants.TIMESTAMP))
+            val heading: String = data.getString(Constants.HEADING)
+            val description: String = data.getString(Constants.DESCRIPTION)
+            val bounds: VDBounds? = try { JSONUtils.vdBoundsFromJson(data.getJSONObject(Constants.BOUNDS)) } catch (e: JSONException) { null }
+            return Roadwork(entityType, tag, timestamp, heading, description, bounds)
         }
     }
 

@@ -8,11 +8,13 @@
 
 package dk.vejdirektoratet.vejdirektoratetsdk
 
+import android.os.Parcelable
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import dk.vejdirektoratet.vejdirektoratetsdk.feed.Feed
 import dk.vejdirektoratet.vejdirektoratetsdk.http.VDRequest
 import dk.vejdirektoratet.vejdirektoratetsdk.utils.Utils
+import kotlinx.android.parcel.Parcelize
 
 /**
  * An enum describing the available entity types
@@ -23,7 +25,8 @@ import dk.vejdirektoratet.vejdirektoratetsdk.utils.Utils
  * [WINTER_DEICING] deicing status of road segments
  * [WINTER_CONDITION] condition of road segments with respect to slipperiness
  */
-enum class EntityType(val value: String) {
+@Parcelize
+enum class EntityType(val value: String) : Parcelable {
     TRAFFIC("traffic"),
     ROADWORK("roadworks"),
     TRAFFIC_DENSITY("trafficdensity"),
@@ -37,7 +40,8 @@ enum class EntityType(val value: String) {
  * [LIST] returns entities suitable for non-map representation
  * [MAP] returns entities suitable for map representation
  */
-enum class ViewType {
+@Parcelize
+enum class ViewType : Parcelable {
     LIST,
     MAP
 }
@@ -85,7 +89,8 @@ class VejdirektoratetSDK {
  * @property lat the latitude as a Double
  * @property lng the longitude as a Double
  */
-data class VDLatLng(val lat: Double, val lng: Double)
+@Parcelize
+data class VDLatLng(val lat: Double, val lng: Double) : Parcelable
 
 /**
  * Converting a [VDLatLng] into a Google Maps [LatLng] object
@@ -122,7 +127,8 @@ fun MutableList<VDLatLng>.asLatLng(): MutableList<LatLng> {
  * @property southWest the south west boarder of the region
  * @property northEast the north east boarder of the region
  */
-data class VDBounds(val southWest: VDLatLng, val northEast: VDLatLng)
+@Parcelize
+data class VDBounds(val southWest: VDLatLng, val northEast: VDLatLng) : Parcelable
 
 /**
  * Converting a [VDBounds] into a Google Maps [LatLngBounds] object
