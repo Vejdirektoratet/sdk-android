@@ -15,7 +15,7 @@ import dk.vejdirektoratet.vejdirektoratetsdk.VDException
 import kotlinx.android.parcel.Parcelize
 import kotlinx.android.parcel.TypeParceler
 import org.json.JSONObject
-import java.util.*
+import java.util.Date
 
 internal val validEntityTypes = mapOf(
     Constants.LATEX_TRAFFIC to BaseEntity.BaseEntityType.Traffic,

@@ -10,12 +10,11 @@ package dk.vejdirektoratet.vejdirektoratetsdk
 
 import android.os.Parcel
 import kotlinx.android.parcel.Parceler
-import java.util.*
+import java.util.Date
 
 internal object DateParceler : Parceler<Date> {
 
     override fun create(parcel: Parcel) = Date(parcel.readLong())
 
-    override fun Date.write(parcel: Parcel, flags: Int)
-            = parcel.writeLong(time)
+    override fun Date.write(parcel: Parcel, flags: Int) = parcel.writeLong(time)
 }
