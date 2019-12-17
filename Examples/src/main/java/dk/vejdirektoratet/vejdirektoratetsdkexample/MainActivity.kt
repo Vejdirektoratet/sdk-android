@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        entity_button.isEnabled = listEntities.isNotEmpty()
 
         val bounds = VDBounds(VDLatLng(56.004548, 9.739952), VDLatLng(56.377372, 10.388643))
 
@@ -65,6 +66,7 @@ class MainActivity : AppCompatActivity() {
                 listEntities = result.entities
             }
             this@MainActivity.runOnUiThread {
+                entity_button.isEnabled = listEntities.isNotEmpty()
                 val description = result.entities.joinToString(separator = "\n") { entity -> if (entity is ListEntity) entity.description else (entity as MapEntity).style.id}
                 updateTexts(description, map)
             }
