@@ -1,6 +1,6 @@
 /**
  *  EntityActivity.kt
- *  VejdirektoratetSDK
+ *  Examples
  *
  *  Created by Søren Krogh Sørensen on 2019-12-13.
  *  Copyright © 2019 Vejdirektoratet. All rights reserved.
