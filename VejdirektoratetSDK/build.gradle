@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 def releaseUrl = "\"https://test-vdapp.dannap.dk/api/v2/\""
-def developmentUrl = "\"https://test-vdapp.dannap.dk/api/v2/\""
+def developmentUrl = "\"https://prod.middleman.dk/api/v2/\""//"\"https://test-vdapp.dannap.dk/api/v2/\""
 
 def preproductionPort = "1337"
 def preproductionUrl = "\"http://localhost:" + preproductionPort + "/api/v2/\""
