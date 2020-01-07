@@ -78,7 +78,7 @@ internal class HTTP {
             url = "$url&sw=${region.southWest.lat},${region.southWest.lng}&ne=${region.northEast.lat},${region.northEast.lng}"
         }
 
-        if (zoom != Int.MAX_VALUE && viewType == ViewType.MAP) {
+        if (zoom != null && viewType == ViewType.MAP) {
             url = "$url&zoom=$zoom"
         }
 

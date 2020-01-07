@@ -60,7 +60,7 @@ class VejdirektoratetSDK {
          * @param onCompletion the callback method which will receive the entities in from of a [Feed.Result]
          * @return [VDRequest] returns a cancellable request
          */
-        fun request(entityTypes: List<EntityType>, region: VDBounds?, zoom: Int? = Int.MAX_VALUE, viewType: ViewType, apiKey: String, onCompletion: (result: Feed.Result) -> Unit): VDRequest {
+        fun request(entityTypes: List<EntityType>, region: VDBounds?, zoom: Int? = null, viewType: ViewType, apiKey: String, onCompletion: (result: Feed.Result) -> Unit): VDRequest {
             return Feed().request(entityTypes, region, zoom, viewType, apiKey, onCompletion)
         }
 
@@ -75,7 +75,7 @@ class VejdirektoratetSDK {
          * @param onCompletion the callback method which will receive the entities in from of a [Feed.Result]
          * @return [VDRequest] returns a cancellable request
          */
-        fun request(entityTypes: List<EntityType>, region: LatLngBounds, zoom: Int? = Int.MAX_VALUE, viewType: ViewType, apiKey: String, onCompletion: (result: Feed.Result) -> Unit): VDRequest {
+        fun request(entityTypes: List<EntityType>, region: LatLngBounds, zoom: Int? = null, viewType: ViewType, apiKey: String, onCompletion: (result: Feed.Result) -> Unit): VDRequest {
             return request(entityTypes, Utils.latLngBoundsToVDBounds(region), zoom, viewType, apiKey, onCompletion)
         }
     }
