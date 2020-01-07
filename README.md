@@ -41,6 +41,9 @@ To generate an API key you have to:
 ## Get started
 Bellow you can see examples of how to use the `request` method and explanations of the parameters this method takes.
 
+### Class diagram
+<img src="class_diagram.png" alt="alt text" title="Class diagram" height="50">
+
 ### Example of requesting data
 The following request will return the current Traffic and Roadwork events for the specified region. The returned data will be in a format suitable for a list representation due to the parameter `viewType = ViewType.LIST`.
 ```kotlin
@@ -50,9 +53,9 @@ import dk.vejdirektoratet.vejdirektoratetsdk.feed.Feed
 val bounds = VDBounds(VDLatLng(56.004548, 9.739952), VDLatLng(56.377372, 10.388643))
 
 val request = VejdirektoratetSDK.request(entityTypes = listOf(EntityType.TRAFFIC, EntityType.ROADWORK), region = bounds, viewType = ViewType.LIST, apiKey = "the_generated_api_key") { result: Feed.Result ->  
-  when (result) {  
-        is Feed.Result.Success -> handleSuccess(result)  
-        is Feed.Result.Error -> handleFailure(result)  
+	when (result) {  
+        is Feed.Result.Success -> handleSuccess(result, ViewType.LIST)  
+        is Feed.Result.Error -> handleFailure(result, ViewType.LIST)  
     }  
 }
 ```
@@ -64,8 +67,25 @@ request.cancel()
 ```
 
 #### Parsing a successful result
-If the `Result` object received in the callback functions is an instance of `Feed.Result.Success` it will contain a `MutableList<BaseEntity>`.
-The `BaseEntity` is the parent class of all entities and contains some basic information such as `entityType` which can be used to cast the `BaseEntity` to a specific class such as `` 
+If the `Result` object received in the callback function is an instance of `Feed.Result.Success` it will contain a `MutableList<BaseEntity>`.
+The `BaseEntity` is the parent class of all entities and contains some basic information such as `entityType` which can be used to cast the `BaseEntity` to a specific class such as `Roadwork`.
+
+BaseEntity
+
+ListEntity : BaseEntity
+MapEntity : BaseEntity
+
+
+
+
+```kotlin
+private fun handleSuccess(result: Feed.Result.Success, viewType: ViewType) {  
+    if (result.entities.isNotEmpty()) {
+	    Toast.makeText(this, "Hi there! This is a Toast.", Toast.LENGTH_SHORT).show()
+		entities = result.entities  
+    }  
+}
+```
 
 ### Request parameters
 
