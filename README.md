@@ -3,19 +3,24 @@
 
 [![](https://jitpack.io/v/kittinunf/fuel.svg)](https://jitpack.io/#kittinunf/fuel)
 
-The easiest way of getting up to date traffic data for the geographical region of Denmark.
+The easiest way of getting official and up to date traffic data for the geographical region of Denmark.
 
 ## Features
 
-- [x] Request Traffic and/or Roadwork events
-- [x] Request road segment information... 
-- [ ] Live stream of traffic events and changes to these
+- [x] Traffic events
+- [x] Roadwork events
+- [x] Road segments congestion status
+- [x] Road segments deicing status in winter
+- [x] Condition of road segments in winter
+- [x] Request data from within geographical bounding box
+- [x] Request single entity based on `tag`
+- [ ] Live stream of events (i.e. new, removed and updated entities)
 
 ## Installation
 
 The library can be installed through [`Jitpack`](https://jitpack.io/#kittinunf/fuel). Jitpack can be used to build any branch, commit and version.
 
-Import the library into oyur project by adding the following to your `gradle` file:
+Import the library into your project by adding the following to your `gradle` file:
 
 ```kotlin
 allprojects {
@@ -38,8 +43,8 @@ To generate an API key you have to:
  1. Create an account on the [website](https://nap.vd.dk/register) of The Danish Road Directorate.
  2. [Generate](https://nap.vd.dk/themes/811) the API key *(while being logged in to the account created in step 1)*
 
-## Get started
-Bellow you can see examples of how to use the `request` method and explanations of the parameters this method takes.
+## Getting started
+Bellow you can see a class diagram visualising the relationship between the returned `BaseEntity` objects and its subclasses, examples of how to use the `request` method and explanations of the parameters this method takes.
 
 ### Class diagram
 <img src="class_diagram.png" alt="alt text" title="Class diagram" height="250">
@@ -81,7 +86,7 @@ private fun handleSuccess(result: Feed.Result.Success) {
 }
 ```
 
-The `ViewType` passed as parameter to the `request` method could also be used to split between `ListEntity` and `MapEntity`
+The `ViewType` passed as parameter to the `request` method could also be used to branch between `ListEntity` and `MapEntity`
 
 ### Request parameters
 
