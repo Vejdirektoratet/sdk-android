@@ -42,7 +42,7 @@ To generate an API key you have to:
 Bellow you can see examples of how to use the `request` method and explanations of the parameters this method takes.
 
 ### Class diagram
-<img src="class_diagram.png" alt="alt text" title="Class diagram" height="50">
+<img src="class_diagram.png" alt="alt text" title="Class diagram" height="200">
 
 ### Example of requesting data
 The following request will return the current Traffic and Roadwork events for the specified region. The returned data will be in a format suitable for a list representation due to the parameter `viewType = ViewType.LIST`.
@@ -69,14 +69,6 @@ request.cancel()
 #### Parsing a successful result
 If the `Result` object received in the callback function is an instance of `Feed.Result.Success` it will contain a `MutableList<BaseEntity>`.
 The `BaseEntity` is the parent class of all entities and contains some basic information such as `entityType` which can be used to cast the `BaseEntity` to a specific class such as `Roadwork`.
-
-BaseEntity
-
-ListEntity : BaseEntity
-MapEntity : BaseEntity
-
-
-
 
 ```kotlin
 private fun handleSuccess(result: Feed.Result.Success, viewType: ViewType) {  
@@ -114,8 +106,8 @@ The Int parameter `zoom` is a Google-maps style zoom level describing in which r
 #### viewType
 The `viewType` parameter defines in which format the data should be returned. Data can be returned in two formats aimed for different purposes.
 
- - **LIST** *(for list representations of data)*
- - **MAP** *(contains geometrical information for a map representation of the data)*
+ - **LIST** - Returns `ListEntity` objects *(for list representations of data)*
+ - **MAP** - Returns `MapEntity` objects *(contains geometrical information for a map representation of the data)*
 
 #### apiKey
 The `apiKey` parameter is required to get access to the available data. 

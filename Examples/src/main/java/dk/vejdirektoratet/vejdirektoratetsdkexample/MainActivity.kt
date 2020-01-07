@@ -35,16 +35,16 @@ class MainActivity : AppCompatActivity() {
 
         val listRequest = VejdirektoratetSDK.request(entityTypes = listOf(EntityType.TRAFFIC, EntityType.ROADWORK), region = bounds, viewType = ViewType.LIST, apiKey = apiKey) { result: Feed.Result ->
             when (result) {
-                is Feed.Result.Success -> handleSuccess(result, false)
-                is Feed.Result.Error -> handleFailure(result, false)
+                is Feed.Result.Success -> handleSuccess(result, ViewType.LIST)
+                is Feed.Result.Error -> handleFailure(result, ViewType.LIST)
             }
         }
         //listRequest.cancel()
 
         val mapRequest = VejdirektoratetSDK.request(entityTypes = listOf(EntityType.TRAFFIC_DENSITY), region = bounds, viewType = ViewType.MAP, apiKey = apiKey) { result: Feed.Result ->
             when (result) {
-                is Feed.Result.Success -> handleSuccess(result, true)
-                is Feed.Result.Error -> handleFailure(result, true)
+                is Feed.Result.Success -> handleSuccess(result, ViewType.MAP)
+                is Feed.Result.Error -> handleFailure(result, ViewType.MAP)
             }
         }
         //mapRequest.cancel()
@@ -60,35 +60,35 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun handleSuccess(result: Feed.Result.Success, map: Boolean) {
+    private fun handleSuccess(result: Feed.Result.Success, viewType: ViewType) {
         if (result.entities.isNotEmpty()) {
-            if (!map) {
+            if (viewType == ViewType.LIST) {
                 listEntities = result.entities
             }
             this@MainActivity.runOnUiThread {
                 entity_button.isEnabled = listEntities.isNotEmpty()
                 val description = result.entities.joinToString(separator = "\n") { entity -> if (entity is ListEntity) entity.description else (entity as MapEntity).style.id}
-                updateTexts(description, map)
+                updateTexts(description, viewType)
             }
         }
     }
 
-    private fun handleFailure(error: Feed.Result.Error, map: Boolean) {
+    private fun handleFailure(error: Feed.Result.Error, viewType: ViewType) {
         val header: String = when (error) {
             is Feed.Result.HttpError -> error.statusCode.toString()
             else -> "Error!"
         }
 
         this@MainActivity.runOnUiThread {
-            updateTexts(error.exception.localizedMessage, map)
+            updateTexts(error.exception.localizedMessage, viewType)
         }
     }
 
-    private fun updateTexts(content: String, map: Boolean) {
-        if (map) {
-            map_text.text = content
-        } else {
+    private fun updateTexts(content: String, viewType: ViewType) {
+        if (viewType == ViewType.LIST) {
             list_text.text = content
+        } else {
+            map_text.text = content
         }
     }
 }
