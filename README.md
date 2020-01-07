@@ -73,9 +73,9 @@ private fun handleSuccess(result: Feed.Result.Success) {
     if (result.entities.isNotEmpty()) {  
         val text: String = when (val entity = result.entities[0]) {  
             is ListEntity -> "ListEntity - description: ${entity.description}"  
-  is MapEntity -> "MapEntity - type: ${entity.type.value}"  
-  else -> "Unknown EntityType!"  
-  }  
+            is MapEntity -> "MapEntity - type: ${entity.type.value}"  
+            else -> "Unknown EntityType!"  
+        }  
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show()  
     }  
 }
