@@ -42,10 +42,10 @@ To generate an API key you have to:
 Bellow you can see examples of how to use the `request` method and explanations of the parameters this method takes.
 
 ### Class diagram
-<img src="class_diagram.png" alt="alt text" title="Class diagram" height="200">
+<img src="class_diagram.png" alt="alt text" title="Class diagram" height="250">
 
 ### Example of requesting data
-The following request will return the current Traffic and Roadwork events for the specified region. The returned data will be in a format suitable for a list representation due to the parameter `viewType = ViewType.LIST`.
+The following request will return the current Traffic and Roadwork events for the specified region. The returned data will subclasses of `ListEntity` suitable for a list representation due to the parameter `viewType = ViewType.LIST`.
 ```kotlin
 import dk.vejdirektoratet.vejdirektoratetsdk.*
 import dk.vejdirektoratet.vejdirektoratetsdk.feed.Feed
@@ -54,30 +54,35 @@ val bounds = VDBounds(VDLatLng(56.004548, 9.739952), VDLatLng(56.377372, 10.3886
 
 val request = VejdirektoratetSDK.request(entityTypes = listOf(EntityType.TRAFFIC, EntityType.ROADWORK), region = bounds, viewType = ViewType.LIST, apiKey = "the_generated_api_key") { result: Feed.Result ->  
 	when (result) {  
-        is Feed.Result.Success -> handleSuccess(result, ViewType.LIST)  
-        is Feed.Result.Error -> handleFailure(result, ViewType.LIST)  
+        is Feed.Result.Success -> handleSuccess(result)  
+        is Feed.Result.Error -> handleFailure(result)  
     }  
 }
 ```
 
 #### Cancelling the request
-The method returnes a `VDRequest` which can be cancelled by calling
+The method returns a `VDRequest` which can be cancelled by calling
 ```kotlin
 request.cancel()
 ```
 
 #### Parsing a successful result
 If the `Result` object received in the callback function is an instance of `Feed.Result.Success` it will contain a `MutableList<BaseEntity>`.
-The `BaseEntity` is the parent class of all entities and contains some basic information such as `entityType` which can be used to cast the `BaseEntity` to a specific class such as `Roadwork`.
-
 ```kotlin
-private fun handleSuccess(result: Feed.Result.Success, viewType: ViewType) {  
+private fun handleSuccess(result: Feed.Result.Success) {  
     if (result.entities.isNotEmpty()) {
-	    Toast.makeText(this, "Hi there! This is a Toast.", Toast.LENGTH_SHORT).show()
-		entities = result.entities  
+		val entity = result.entities[0]  
+		val text: String = when (entity) {  
+		    is ListEntity -> "ListEntity - description: ${entity.description}"  
+			is MapEntity -> "MapEntity - type: ${entity.type.value}"  
+			else -> "Unknown EntityType!"  
+		}
+	    Toast.makeText(this, text, Toast.LENGTH_SHORT).show()  
     }  
 }
 ```
+
+The `ViewType` passed as parameter to the `request` method could also be used to split between `ListEntity` and `MapEntity`
 
 ### Request parameters
 

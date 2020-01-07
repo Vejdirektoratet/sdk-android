@@ -57,7 +57,7 @@ class VejdirektoratetSDK {
          * @param zoom Google-like zoom level to determine the detail level
          * @param viewType the desired [ViewType] for which to display the entities
          * @param apiKey the API key should be acquired from https://nap.vd.dk/
-         * @param onCompletion the callback method which will receive the entities in from of a [Feed.Result]
+         * @param onCompletion the callback method which will receive the entities in form of a [Feed.Result]
          * @return [VDRequest] returns a cancellable request
          */
         fun request(entityTypes: List<EntityType>, region: VDBounds?, zoom: Int? = null, viewType: ViewType, apiKey: String, onCompletion: (result: Feed.Result) -> Unit): VDRequest {
@@ -72,7 +72,7 @@ class VejdirektoratetSDK {
          * @param zoom Google-like zoom level to determine the detail level
          * @param viewType the desired [ViewType] for which to display the entities
          * @param apiKey the API key should be acquired from https://nap.vd.dk/
-         * @param onCompletion the callback method which will receive the entities in from of a [Feed.Result]
+         * @param onCompletion the callback method which will receive the entities in form of a [Feed.Result]
          * @return [VDRequest] returns a cancellable request
          */
         fun request(entityTypes: List<EntityType>, region: LatLngBounds, zoom: Int? = null, viewType: ViewType, apiKey: String, onCompletion: (result: Feed.Result) -> Unit): VDRequest {
