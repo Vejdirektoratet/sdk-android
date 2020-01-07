@@ -53,7 +53,7 @@ import dk.vejdirektoratet.vejdirektoratetsdk.feed.Feed
 val bounds = VDBounds(VDLatLng(56.004548, 9.739952), VDLatLng(56.377372, 10.388643))
 
 val request = VejdirektoratetSDK.request(entityTypes = listOf(EntityType.TRAFFIC, EntityType.ROADWORK), region = bounds, viewType = ViewType.LIST, apiKey = "the_generated_api_key") { result: Feed.Result ->  
-	when (result) {  
+    when (result) {  
         is Feed.Result.Success -> handleSuccess(result)  
         is Feed.Result.Error -> handleFailure(result)  
     }  
@@ -70,14 +70,13 @@ request.cancel()
 If the `Result` object received in the callback function is an instance of `Feed.Result.Success` it will contain a `MutableList<BaseEntity>`.
 ```kotlin
 private fun handleSuccess(result: Feed.Result.Success) {  
-    if (result.entities.isNotEmpty()) {
-		val entity = result.entities[0]  
-		val text: String = when (entity) {  
-		    is ListEntity -> "ListEntity - description: ${entity.description}"  
-			is MapEntity -> "MapEntity - type: ${entity.type.value}"  
-			else -> "Unknown EntityType!"  
-		}
-	    Toast.makeText(this, text, Toast.LENGTH_SHORT).show()  
+    if (result.entities.isNotEmpty()) {  
+        val text: String = when (val entity = result.entities[0]) {  
+            is ListEntity -> "ListEntity - description: ${entity.description}"  
+  is MapEntity -> "MapEntity - type: ${entity.type.value}"  
+  else -> "Unknown EntityType!"  
+  }  
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()  
     }  
 }
 ```
