@@ -145,12 +145,11 @@ and returns a `LatLngBounds` or a `MutableList<LatLngBounds>` respectively.
 
 
 ## Credits
-This SDK is using the following libraries:
+VejdirektoratetSDK is brought to you by [The Danish Road Directorate](https://www.vejdirektoratet.dk/).
 
+This SDK is using the following libraries:
  - [Fuel](https://github.com/kittinunf/fuel/blob/master/README.md) - A HTTP networking library for Kotlin/Android.
  - [Result](https://github.com/kittinunf/Result) - A tiny framework for modelling success/failure of operations in [Kotlin](http://kotlinlang.org/).
-
-VejdirektoratetSDK is brought to you by [The Danish Road Directorate](https://www.vejdirektoratet.dk/).
 
 Project [contributors](https://github.com/Vejdirektoratet/sdk-android/graphs/contributors).
 
