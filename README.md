@@ -13,7 +13,7 @@ The easiest way of getting official and up to date traffic data for the geograph
 - [x] Road segments deicing status in winter
 - [x] Condition of road segments in winter
 - [x] Request data from within geographical bounding box
-- [x] Request single entity based on `tag`
+- [x] Request single entity by `tag`
 - [ ] Live stream of events (i.e. new, removed and updated entities)
 
 ## Installation
@@ -50,7 +50,7 @@ Bellow you can see a class diagram visualising the relationship between the retu
 <img src="class_diagram.png" alt="alt text" title="Class diagram" height="250">
 
 ### Example of requesting data
-The following request will return the current Traffic and Roadwork events for the specified region. The returned data will subclasses of `ListEntity` suitable for a list representation due to the parameter `viewType = ViewType.LIST`.
+The following request will return the current Traffic and Roadwork events for the specified region. The returned data will be objects subclassing `ListEntity` suitable for a list representation due to the parameter `viewType = ViewType.LIST`.
 ```kotlin
 import dk.vejdirektoratet.vejdirektoratetsdk.*
 import dk.vejdirektoratet.vejdirektoratetsdk.feed.Feed
@@ -106,6 +106,8 @@ The `region` parameter is a bounding box describing the area for which to get da
 
  - `LatLngBounds` - If you are using Google Maps (from `google.android.gms.maps.model`)
  - `VDBounds`  - If you are not already using Google Maps and prefer not import it into your project.
+
+Omitting this parameter will return data for the entire region of Denmark.
 
 #### zoom
 The Int parameter `zoom` is a Google-maps style zoom level describing in which resolution the geometrical information should be returned.
