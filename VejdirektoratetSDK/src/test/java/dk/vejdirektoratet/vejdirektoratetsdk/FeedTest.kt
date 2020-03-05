@@ -53,9 +53,9 @@ class FeedTest {
         Thread.sleep(200)
 
         asserter.assertNotNull("Should NOT be null", requestResult)
-        asserter.assertTrue("Should be of type Result.Success", requestResult is Feed.Result.Success)
+        asserter.assertTrue("Should be of type Result.Entities", requestResult is Feed.Result.Entities)
 
-        val entities = (requestResult as Feed.Result.Success).entities
+        val entities = (requestResult as Feed.Result.Entities).entities
         asserter.assertEquals("Entities should have size = 2", 2, entities.size)
 
         val firstEntity = entities[0] as ListEntity
@@ -66,8 +66,8 @@ class FeedTest {
         asserter.assertEquals("Should contain correct description", "Rute 21 Motortrafikvej 21, fra Sjællands Odde mod Holbæk mellem Slagelse/Nykøbing Sj. og Asnæs. Tabt gods, vejhjælp er på vej. Der ligger en dunk midt på vejen", firstEntity.description)
         asserter.assertNotNull("Bounds should not be null", firstEntity.bounds)
         asserter.assertEquals("Should contain correct SouthWest latitude", 55.808418, firstEntity.bounds?.southWest?.lat)
-        asserter.assertEquals("Should contain correct NorthEast longitude", 11.582623, firstEntity.bounds?.southWest?.lng)
-        asserter.assertEquals("Should contain correct SouthWest latitude", 55.808418, firstEntity.bounds?.northEast?.lat)
+        asserter.assertEquals("Should contain correct SouthWest longitude", 11.582623, firstEntity.bounds?.southWest?.lng)
+        asserter.assertEquals("Should contain correct NorthEast latitude", 55.808418, firstEntity.bounds?.northEast?.lat)
         asserter.assertEquals("Should contain correct NorthEast longitude", 11.582623, firstEntity.bounds?.northEast?.lng)
 
         val secondEntity = entities[1] as ListEntity
@@ -78,8 +78,8 @@ class FeedTest {
         asserter.assertEquals("Should contain correct description", "O2 København-Østerbro, Århusgade til Kalkbrænderihavnsgade mellem Hjørringgade og Trelleborggade. Vejarbejde, spærret. Metroarbejde. Spærret for al trafik fra Århusgade til Kalkbrænderihavnsgade, Følg skiltning på stedet. Cykler og gående skal via Vordingborggade eller Nordre Frihavnsgade", secondEntity.description)
         asserter.assertNotNull("Bounds should not be null", secondEntity.bounds)
         asserter.assertEquals("Should contain correct SouthWest latitude", 55.707131, secondEntity.bounds?.southWest?.lat)
-        asserter.assertEquals("Should contain correct NorthEast longitude", 12.589524, secondEntity.bounds?.southWest?.lng)
-        asserter.assertEquals("Should contain correct SouthWest latitude", 55.70728, secondEntity.bounds?.northEast?.lat)
+        asserter.assertEquals("Should contain correct SouthWest longitude", 12.589524, secondEntity.bounds?.southWest?.lng)
+        asserter.assertEquals("Should contain correct NorthEast latitude", 55.70728, secondEntity.bounds?.northEast?.lat)
         asserter.assertEquals("Should contain correct NorthEast longitude", 12.59096, secondEntity.bounds?.northEast?.lng)
     }
 
@@ -99,9 +99,9 @@ class FeedTest {
         Thread.sleep(200)
 
         asserter.assertNotNull("Should NOT be null", requestResult)
-        asserter.assertTrue("Should be of type Result.Success", requestResult is Feed.Result.Success)
+        asserter.assertTrue("Should be of type Result.Entities", requestResult is Feed.Result.Entities)
 
-        val entities = (requestResult as Feed.Result.Success).entities
+        val entities = (requestResult as Feed.Result.Entities).entities
         asserter.assertEquals("Entities should have size = 2", 2, entities.size)
 
         val firstEntity = entities[0] as ListEntity
@@ -137,9 +137,9 @@ class FeedTest {
         Thread.sleep(200)
 
         asserter.assertNotNull("Should NOT be null", requestResult)
-        asserter.assertTrue("Should be of type Result.Success", requestResult is Feed.Result.Success)
+        asserter.assertTrue("Should be of type Result.Entities", requestResult is Feed.Result.Entities)
 
-        val entities = (requestResult as Feed.Result.Success).entities
+        val entities = (requestResult as Feed.Result.Entities).entities
         asserter.assertEquals("Entities should have size = 1", 1, entities.size)
 
         val entity = entities[0] as ListEntity
@@ -170,9 +170,9 @@ class FeedTest {
         Thread.sleep(200)
 
         asserter.assertNotNull("Should NOT be null", requestResult)
-        asserter.assertTrue("Should be of type Result.Success", requestResult is Feed.Result.Success)
+        asserter.assertTrue("Should be of type Result.Entities", requestResult is Feed.Result.Entities)
 
-        val entities = (requestResult as Feed.Result.Success).entities
+        val entities = (requestResult as Feed.Result.Entities).entities
         asserter.assertEquals("Entities should have size = 1", 1, entities.size)
 
         val entity = entities[0] as ListEntity
@@ -196,9 +196,9 @@ class FeedTest {
         Thread.sleep(200)
 
         asserter.assertNotNull("Should NOT be null", requestResult)
-        asserter.assertTrue("Should be of type Result.Success", requestResult is Feed.Result.Success)
+        asserter.assertTrue("Should be of type Result.Entities", requestResult is Feed.Result.Entities)
 
-        val entities = (requestResult as Feed.Result.Success).entities
+        val entities = (requestResult as Feed.Result.Entities).entities
         asserter.assertEquals("Entities should have size = 2", 2, entities.size)
 
         val firstEntity = entities[0] as MapEntity
@@ -233,9 +233,9 @@ class FeedTest {
         Thread.sleep(200)
 
         asserter.assertNotNull("Should NOT be null", requestResult)
-        asserter.assertTrue("Should be of type Result.Success", requestResult is Feed.Result.Success)
+        asserter.assertTrue("Should be of type Result.Entities", requestResult is Feed.Result.Entities)
 
-        val entities = (requestResult as Feed.Result.Success).entities
+        val entities = (requestResult as Feed.Result.Entities).entities
         asserter.assertEquals("Entities should have size = 0", 0, entities.size)
     }
 
@@ -260,9 +260,9 @@ class FeedTest {
         Thread.sleep(200)
 
         asserter.assertNotNull("Should NOT be null", requestResult)
-        asserter.assertTrue("Should be of type Result.Success", requestResult is Feed.Result.Success)
+        asserter.assertTrue("Should be of type Result.Entities", requestResult is Feed.Result.Entities)
 
-        val entities = (requestResult as Feed.Result.Success).entities
+        val entities = (requestResult as Feed.Result.Entities).entities
         asserter.assertEquals("Entities should have size = 1", 1, entities.size)
 
         val entity = entities[0] as MapEntity
@@ -296,13 +296,59 @@ class FeedTest {
         Thread.sleep(200)
 
         asserter.assertNotNull("Should NOT be null", requestResult)
-        asserter.assertTrue("Should be of type Result.Success", requestResult is Feed.Result.Success)
+        asserter.assertTrue("Should be of type Result.Entities", requestResult is Feed.Result.Entities)
 
-        val entities = (requestResult as Feed.Result.Success).entities
+        val entities = (requestResult as Feed.Result.Entities).entities
         asserter.assertEquals("Entities should have size = 1", 1, entities.size)
 
         val entity = entities[0] as MapEntity
         asserter.assertTrue("Entity should be of type MapMarker", entity is MapMarker)
         asserter.assertEquals("Should have correct tag", "Correct", entity.tag)
+    }
+
+    @Test
+    fun `Entity - test requesting single entity by tag`() {
+        val tag = "VHJhZmlrbWFuMi9yX1RyYWZpa21hbjIvMTMzNDQzMl9USUMtVHJhZmlrbWFuMi8x"
+        val response = """{
+            "heading":"Tabt gods",
+            "description":"Rute 21 Motortrafikvej 21, fra Sjællands Odde mod Holbæk mellem Slagelse/Nykøbing Sj. og Asnæs. Tabt gods, vejhjælp er på vej. Der ligger en dunk midt på vejen",
+            "tag":"$tag",
+            "entityType":"latextraffic",
+            "timestamp":"2019-09-12T09:20:26.000+0000",
+            "bounds":{
+                "southWest":{
+                    "lat":55.808418,
+                    "lng":11.582623
+                },
+                "northEast":{
+                    "lat":55.808418,
+                    "lng":11.582623
+                }
+            }
+        }"""
+        mockServer.enqueue(MockResponse().setBody(response).setResponseCode(200))
+
+        var requestResult: Feed.Result? = null
+        VejdirektoratetSDK.requestEntity(tag, ViewType.LIST, apiKey = "test_key") { result: Feed.Result ->
+            requestResult = result
+        }
+        Thread.sleep(200)
+
+        asserter.assertNotNull("Should NOT be null", requestResult)
+        asserter.assertTrue("Should be of type Result.Entity", requestResult is Feed.Result.Entity)
+
+        val entity = (requestResult as Feed.Result.Entity).entity
+        val listEntity = entity as ListEntity
+
+        asserter.assertTrue("Entity should be of type Traffic", listEntity is Traffic)
+        asserter.assertEquals("Should contain correct tag", tag, listEntity.tag)
+        asserter.assertEquals("Should contain correct timestamp", Utils.dateFromIso8601String("2019-09-12T09:20:26.000+0000"), listEntity.timestamp)
+        asserter.assertEquals("Should contain correct heading", "Tabt gods", listEntity.heading)
+        asserter.assertEquals("Should contain correct description", "Rute 21 Motortrafikvej 21, fra Sjællands Odde mod Holbæk mellem Slagelse/Nykøbing Sj. og Asnæs. Tabt gods, vejhjælp er på vej. Der ligger en dunk midt på vejen", listEntity.description)
+        asserter.assertNotNull("Bounds should not be null", listEntity.bounds)
+        asserter.assertEquals("Should contain correct SouthWest latitude", 55.808418, listEntity.bounds?.southWest?.lat)
+        asserter.assertEquals("Should contain correct SouthWest longitude", 11.582623, listEntity.bounds?.southWest?.lng)
+        asserter.assertEquals("Should contain correct NorthEast latitude", 55.808418, listEntity.bounds?.northEast?.lat)
+        asserter.assertEquals("Should contain correct NorthEast longitude", 11.582623, listEntity.bounds?.northEast?.lng)
     }
 }

@@ -43,7 +43,13 @@ internal class Constants {
         const val MAP_TYPE_POLYGON = "POLYGON"
 
         private const val BASE_URL = BuildConfig.SERVER_URL
-        const val BASE_URL_LIST = "${BASE_URL}list/snapshot"
-        const val BASE_URL_MAP = "${BASE_URL}map/snapshot"
+        const val BASE_URL_LIST = "${BASE_URL}list"
+        const val BASE_URL_MAP = "${BASE_URL}map"
+
+        const val BASE_URL_LIST_SNAPSHOT = "$BASE_URL_LIST/snapshot"
+        const val BASE_URL_MAP_SNAPSHOT = "$BASE_URL_MAP/snapshot"
+
+        const val BASE_URL_LIST_ENTITY = "$BASE_URL_LIST/entity"
+        const val BASE_URL_MAP_ENTITY = "$BASE_URL_MAP/entity"
     }
 }

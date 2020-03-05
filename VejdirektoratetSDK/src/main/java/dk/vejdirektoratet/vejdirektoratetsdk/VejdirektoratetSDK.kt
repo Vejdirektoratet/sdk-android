@@ -50,7 +50,7 @@ class VejdirektoratetSDK {
 
     companion object {
         /**
-         * A method to request entities
+         * A method for requesting entities
          *
          * @param entityTypes the desired [EntityType]'s to be returned in the callback
          * @param region the region from which to get entities
@@ -65,7 +65,7 @@ class VejdirektoratetSDK {
         }
 
         /**
-         * A method to request entities
+         * A method for requesting entities
          *
          * @param entityTypes the desired [EntityType]'s to be returned in the callback
          * @param region the region from which to get entities
@@ -77,6 +77,18 @@ class VejdirektoratetSDK {
          */
         fun request(entityTypes: List<EntityType>, region: LatLngBounds, zoom: Int? = null, viewType: ViewType, apiKey: String, onCompletion: (result: Feed.Result) -> Unit): VDRequest {
             return request(entityTypes, Utils.latLngBoundsToVDBounds(region), zoom, viewType, apiKey, onCompletion)
+        }
+
+        /**
+         * A method for requesting a specific entity from its identifier
+         *
+         * @param id the identifier of the entity
+         * @param apiKey the API key should be acquired from https://nap.vd.dk/
+         * @param onCompletion the callback method which will receive the result of the request in from of a [Feed.Result]
+         * @return [VDRequest] returns a cancellable request
+         */
+        fun requestEntity(tag: String, viewType: ViewType, apiKey: String, onCompletion: (result: Feed.Result) -> Unit): VDRequest {
+            return Feed().requestEntity(tag, viewType, apiKey, onCompletion)
         }
     }
 }

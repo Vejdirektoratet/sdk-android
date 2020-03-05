@@ -8,13 +8,12 @@
 
 package dk.vejdirektoratet.vejdirektoratetsdk.feed
 
-import dk.vejdirektoratet.vejdirektoratetsdk.EntityType
-import dk.vejdirektoratet.vejdirektoratetsdk.VDBounds
-import dk.vejdirektoratet.vejdirektoratetsdk.ViewType
-import dk.vejdirektoratet.vejdirektoratetsdk.VDException
+import dk.vejdirektoratet.vejdirektoratetsdk.*
+import dk.vejdirektoratet.vejdirektoratetsdk.Constants
 import dk.vejdirektoratet.vejdirektoratetsdk.UnknownEntityTypeException
 import dk.vejdirektoratet.vejdirektoratetsdk.UnknownMapTypeException
-import dk.vejdirektoratet.vejdirektoratetsdk.Constants
+import dk.vejdirektoratet.vejdirektoratetsdk.UnparseableResultException
+import dk.vejdirektoratet.vejdirektoratetsdk.VDException
 import dk.vejdirektoratet.vejdirektoratetsdk.entity.BaseEntity
 import dk.vejdirektoratet.vejdirektoratetsdk.entity.Traffic
 import dk.vejdirektoratet.vejdirektoratetsdk.entity.Roadwork
@@ -26,6 +25,7 @@ import dk.vejdirektoratet.vejdirektoratetsdk.entity.MapEntity.MapType
 import dk.vejdirektoratet.vejdirektoratetsdk.http.VDRequest
 import org.json.JSONArray
 import org.json.JSONObject
+import org.json.JSONTokener
 
 class Feed {
 
@@ -34,11 +34,18 @@ class Feed {
      */
     sealed class Result {
         /**
-         * The response of a successful request
+         * The response of a successful request containing multiple entities
          *
          * Extends [Result] with a MutableList of entities
          */
-        class Success(val entities: MutableList<BaseEntity>) : Result()
+        class Entities(val entities: MutableList<BaseEntity>) : Result()
+
+        /**
+         * The response of a successful request containing a single entity
+         *
+         * Extends [Result] with a entity
+         */
+        class Entity(val entity: BaseEntity) : Result()
 
         /**
          * The response of a failed request
@@ -56,15 +63,27 @@ class Feed {
     }
 
     internal fun request(entityTypes: List<EntityType>, region: VDBounds?, zoom: Int?, viewType: ViewType, apiKey: String, onCompletion: (result: Result) -> Unit): VDRequest {
-        return HTTP().request(entityTypes, region, zoom, viewType, apiKey) { result: HTTP.Result ->
+        return HTTP().request(null, entityTypes, region, zoom, viewType, apiKey) { result: HTTP.Result ->
+            onCompletion(mapHttpResult(result, viewType))
+        }
+    }
+
+    internal fun requestEntity(tag: String, viewType: ViewType, apiKey: String, onCompletion: (result: Result) -> Unit): VDRequest {
+        return HTTP().request(tag, EntityType.values().asList(), null, 2, viewType, apiKey) { result: HTTP.Result ->
             onCompletion(mapHttpResult(result, viewType))
         }
     }
 
     private fun mapHttpResult(httpResult: HTTP.Result, viewType: ViewType): Result = when (httpResult) {
-        is HTTP.Result.Success -> Result.Success(mapEntities(httpResult.data, viewType))
+        is HTTP.Result.Success -> mapResult(httpResult.data, viewType)
         is HTTP.Result.HttpError -> Result.HttpError(httpResult.exception, httpResult.statusCode)
         is HTTP.Result.Error -> Result.Error(httpResult.exception)
+    }
+
+    private fun mapResult(result: String, viewType: ViewType): Result = when (val json = JSONTokener(result).nextValue()) {
+        is JSONObject -> Result.Entity(mapEntity(json, viewType))
+        is JSONArray -> Result.Entities(mapEntities(json, viewType))
+        else -> Result.Error(UnparseableResultException())
     }
 
     private fun mapEntities(entities: JSONArray, viewType: ViewType): MutableList<BaseEntity> {

@@ -30,7 +30,7 @@ class HttpTest {
     }
 
     @Test
-    fun `Should return Result Success`() {
+    fun `Should return Result Entities`() {
         val response = "[]"
         mockServer.enqueue(MockResponse().setBody(response).setResponseCode(200))
 
@@ -41,7 +41,7 @@ class HttpTest {
         Thread.sleep(200)
 
         asserter.assertNotNull("Should NOT be null", requestResult)
-        asserter.assertTrue("Should be of type Result.Success", requestResult is Feed.Result.Success)
+        asserter.assertTrue("Should be of type Result.Success", requestResult is Feed.Result.Entities)
     }
 
     @Test
@@ -56,8 +56,8 @@ class HttpTest {
         Thread.sleep(200)
 
         asserter.assertNotNull("Should NOT be null", requestResult)
-        asserter.assertTrue("Should be of type Result.Success", requestResult is Feed.Result.Success)
-        asserter.assertNotNull("Entities should NOT be null", ((requestResult as Feed.Result.Success).entities))
+        asserter.assertTrue("Should be of type Result.Success", requestResult is Feed.Result.Entities)
+        asserter.assertNotNull("Entities should NOT be null", ((requestResult as Feed.Result.Entities).entities))
     }
 
     @Test

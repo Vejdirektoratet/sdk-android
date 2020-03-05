@@ -24,35 +24,43 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     private val apiKey: String = BuildConfig.VD_API_KEY // Add VD apiKey
-    private var listEntities: MutableList<BaseEntity> = mutableListOf()
+    private var entity: BaseEntity? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        entity_button.isEnabled = listEntities.isNotEmpty()
+        entity_button.isEnabled = buttonEnabled()
 
         val bounds = VDBounds(VDLatLng(56.004548, 9.739952), VDLatLng(56.377372, 10.388643))
 
         val listRequest = VejdirektoratetSDK.request(entityTypes = listOf(EntityType.TRAFFIC, EntityType.ROADWORK), region = bounds, viewType = ViewType.LIST, apiKey = apiKey) { result: Feed.Result ->
             when (result) {
-                is Feed.Result.Success -> handleSuccess(result, ViewType.LIST)
-                is Feed.Result.Error -> handleFailure(result, ViewType.LIST)
+                is Feed.Result.Entities -> handleEntities(result, ViewType.LIST)
+                is Feed.Result.Error -> handleError(result, ViewType.LIST)
             }
         }
         //listRequest.cancel()
 
         val mapRequest = VejdirektoratetSDK.request(entityTypes = listOf(EntityType.TRAFFIC_DENSITY), region = bounds, viewType = ViewType.MAP, apiKey = apiKey) { result: Feed.Result ->
             when (result) {
-                is Feed.Result.Success -> handleSuccess(result, ViewType.MAP)
-                is Feed.Result.Error -> handleFailure(result, ViewType.MAP)
+                is Feed.Result.Entities -> handleEntities(result, ViewType.MAP)
+                is Feed.Result.Error -> handleError(result, ViewType.MAP)
             }
         }
         //mapRequest.cancel()
 
+        val entityRequest = VejdirektoratetSDK.requestEntity("some_tag", ViewType.LIST, apiKey) { result: Feed.Result ->
+            when (result) {
+                is Feed.Result.Entity -> entity = result.entity
+            }
+            entity_button.isEnabled = buttonEnabled()
+        }
+        //entityRequest.cancel()
+
         entity_button.setOnClickListener {
-            if (listEntities.isNotEmpty()) {
+            if (entity != null) {
                 val intent = Intent(this, EntityActivity::class.java)
-                intent.putExtra("entity", listEntities[0])
+                intent.putExtra("entity", entity)
                 startActivity(intent)
             } else {
                 Toast.makeText(applicationContext,"No entities", Toast.LENGTH_SHORT).show()
@@ -60,20 +68,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun handleSuccess(result: Feed.Result.Success, viewType: ViewType) {
+    private fun handleEntities(result: Feed.Result.Entities, viewType: ViewType) {
         if (result.entities.isNotEmpty()) {
-            if (viewType == ViewType.LIST) {
-                listEntities = result.entities
-            }
             this@MainActivity.runOnUiThread {
-                entity_button.isEnabled = listEntities.isNotEmpty()
                 val description = result.entities.joinToString(separator = "\n") { entity -> if (entity is ListEntity) entity.description else (entity as MapEntity).style.id}
                 updateTexts(description, viewType)
             }
         }
     }
 
-    private fun handleFailure(error: Feed.Result.Error, viewType: ViewType) {
+    private fun handleError(error: Feed.Result.Error, viewType: ViewType) {
         val header: String = when (error) {
             is Feed.Result.HttpError -> error.statusCode.toString()
             else -> "Error!"
@@ -91,4 +95,6 @@ class MainActivity : AppCompatActivity() {
             map_text.text = content
         }
     }
+
+    private fun buttonEnabled(): Boolean = entity != null
 }

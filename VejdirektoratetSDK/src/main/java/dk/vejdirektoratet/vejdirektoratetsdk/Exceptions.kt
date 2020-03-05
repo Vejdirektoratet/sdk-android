@@ -18,6 +18,8 @@ internal class MissingRequiredValueException(data: Any?) : VDException("data: $d
 internal class MissingRequiredFieldException(fieldName: String, data: Any?) : VDException("fieldName: $fieldName, data: $data")
 internal class IllegalDateFormatException(data: Any?) : VDException("data: $data")
 
+internal class UnparseableResultException() : VDException("Unparseable result from server!")
+
 // For testing
 internal class MissingExceptionException(expectedException: Any, data: Any?) : VDException("\n\nExpected:   $expectedException\nFor data:   $data")
 internal class IncorrectExceptionException(expectedException: Any, actualException: Any, data: Any?) : VDException("\n\nExpected:   $expectedException\nActual:     $actualException\n\nFor data:   $data")
