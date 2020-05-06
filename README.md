@@ -174,4 +174,4 @@ Project [contributors](https://github.com/Vejdirektoratet/sdk-android/graphs/con
   
 ## Licenses  
   
-VejdirektoratetSDK is released under the [SOME_LICENSE_TO_BE_DETERMINED_LATER](https://nap.vd.dk/themes/811) license.
+VejdirektoratetSDK is released under the [MIT](https://mit-license.org) license.
