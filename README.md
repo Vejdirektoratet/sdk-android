@@ -5,7 +5,6 @@
 [![Build Status](https://travis-ci.com/Vejdirektoratet/sdk-android.svg?branch=master)](https://travis-ci.com/Vejdirektoratet/sdk-android)
 [![](https://jitpack.io/v/kittinunf/fuel.svg)](https://jitpack.io/#kittinunf/fuel)
 [![Platform](https://img.shields.io/badge/platform-android-lightgrey?style=flat)](https://img.shields.io/badge/platform-android-lightgrey?style=flat)
-[![Platform](https://img.shields.io/badge/platform-android-lightgrey?style=flat)]()
 ![GitHub](https://img.shields.io/github/license/Vejdirektoratet/sdk-android)
   
 The easiest way of getting official and up to date traffic data for the geographical region of Denmark.  
