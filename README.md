@@ -15,7 +15,6 @@ The easiest way of getting official and up to date traffic data for the geograph
 - [x] Condition of road segments in winter  
 - [x] Request data from within geographical bounding box  
 - [x] Request single entity by `tag`  
-- [ ] Live stream of events (i.e. new, removed and updated entities)  
   
 ## Installation  
   
