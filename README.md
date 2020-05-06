@@ -129,9 +129,9 @@ The `region` parameter is a bounding box describing the area for which to get da
 Omitting this parameter will return data for the entire region of Denmark.  
   
 #### zoom  
-The Int parameter `zoom` is a Google-maps style zoom level describing in which resolution the geometrical information should be returned.  
+The parameter `zoom` is a Google-maps style zoom level describing in which resolution the geometrical information should be returned.  
   
-**NOTE:** This parameter is only relevant for `viewType = ViewType.MAP`  
+**NOTE:** This parameter is only relevant for `viewType = .MAP`  
   
 #### viewType  
 The `viewType` parameter defines in which format the data should be returned. Data can be returned in two formats aimed for different purposes.  
