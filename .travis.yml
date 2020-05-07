@@ -31,6 +31,5 @@ env:
 
 # Run assemble and unit tests
 script:
-    - cd VejdirektoratetSDK
     - chmod +x ./gradlew
     - ./gradlew clean assembleDebug assembleRelease assemblePreproduction testPreproduction
