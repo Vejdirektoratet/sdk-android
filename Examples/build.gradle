@@ -6,7 +6,9 @@ apply plugin: 'kotlin-android-extensions'
 
 def apiKeyPropertiesFile = rootProject.file("apikey.properties")
 def apiKeyProperties = new Properties()
-apiKeyProperties.load(new FileInputStream(apiKeyPropertiesFile))
+if (apiKeyPropertiesFile.exists()) {
+    apiKeyProperties.load(new FileInputStream(apiKeyPropertiesFile))
+}
 
 android {
     compileSdkVersion 28
