@@ -31,4 +31,5 @@ env:
 
 # Run assemble and unit tests
 script:
-  - ./gradlew clean assembleDebug assembleRelease assemblePreproduction testPreproduction
+    - chmod +x ./gradlew
+    - ./gradlew clean assembleDebug assembleRelease assemblePreproduction testPreproduction
