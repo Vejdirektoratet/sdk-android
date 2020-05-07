@@ -3,7 +3,7 @@
 # VejdirektoratetSDK  
   
 [![Build Status](https://travis-ci.com/Vejdirektoratet/sdk-android.svg?branch=master)](https://travis-ci.com/Vejdirektoratet/sdk-android)
-[![](https://jitpack.io/v/kittinunf/fuel.svg)](https://jitpack.io/#kittinunf/fuel)
+[![](https://jitpack.io/v/Vejdirektoratet/sdk-android.svg)](https://jitpack.io/#Vejdirektoratet/sdk-android)
 [![Platform](https://img.shields.io/badge/platform-android-lightgrey?style=flat)](https://img.shields.io/badge/platform-android-lightgrey?style=flat)
 ![GitHub](https://img.shields.io/github/license/Vejdirektoratet/sdk-android)
   
