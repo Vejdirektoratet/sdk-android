@@ -2,8 +2,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
-def releaseUrl = "\"https://prod.middleman.dk/api/v2/\""
-def developmentUrl = "\"https://test-vdapp.dannap.dk/api/v2/\""
+def releaseUrl = "\"https://data.vd-nap.dk/api/v2/\""
+def developmentUrl = "\"https://data.vd-nap.dk/api/v2/\""
 
 def preproductionPort = "1337"
 def preproductionUrl = "\"http://localhost:" + preproductionPort + "/api/v2/\""
@@ -38,7 +38,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
-            buildConfigField "String", "SERVER_URL", developmentUrl
+            buildConfigField "String", "SERVER_URL", releaseUrl
         }
     }
 
