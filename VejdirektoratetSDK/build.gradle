@@ -11,12 +11,11 @@ def preproductionUrl = "\"http://localhost:" + preproductionPort + "/api/v2/\""
 android {
     compileSdkVersion 28
 
-
     defaultConfig {
         minSdkVersion 23
         targetSdkVersion 28
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
     }
