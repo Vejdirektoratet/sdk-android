@@ -6,7 +6,7 @@ apply plugin: 'kotlin-android-extensions'
 
 def apiKeyPropertiesFile = rootProject.file("apikey.properties")
 def apiKeyProperties = new Properties()
-apiKeyProperties["VD_API_KEY"] = ""
+apiKeyProperties["VD_API_KEY"] = "placeholder_key"
 if (apiKeyPropertiesFile.exists()) {
     apiKeyProperties.load(new FileInputStream(apiKeyPropertiesFile))
 }
