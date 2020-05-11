@@ -21,7 +21,7 @@ The easiest way of getting official and up to date traffic data for the geograph
   
 ## Installation  
   
-The library can be installed through [`Jitpack`](https://jitpack.io/#kittinunf/fuel). Jitpack can be used to build any branch, commit and version.  
+The library can be installed through [`Jitpack`](https://jitpack.io/#Vejdirektoratet/sdk-android). Jitpack can be used to build any branch, commit and version.  
   
 Import the library into your project by adding the following to your `gradle` file:  
   
@@ -41,11 +41,6 @@ To generate an API key you have to:
  2. [Generate](https://nap.vd.dk/themes/811) the API key *(while being logged in to the account created in step 1)*  
   
 ## Getting started  
-Below you can see a class diagram visualising the relationship between the returned `BaseEntity` objects and its subclasses, examples of how to use the `request` method and explanations of the parameters this method takes.  
-  
-### Class diagram  
-<img src="class_diagram.png" alt="alt text" title="Class diagram" height="250">  
-  
 ### Example of requesting data  
 The following request will return the current Traffic and Roadwork events for the specified region. The returned data will be objects subclassing `ListEntity` suitable for a list representation due to the parameter `viewType = ViewType.LIST`.  
 ```kotlin  
@@ -112,7 +107,7 @@ The `ViewType` passed as parameter to the `request` methods could also be used t
 ### Request parameters  
   
 #### entityTypes  
-The `entityTypes` parameter is a list of EntityType objects defining what data is requested. The available EntityTypes are:  
+The `entityTypes` parameter is a list of `EntityType` objects defining what data is requested. The available EntityTypes are:  
   
  - **TRAFFIC** *(traffic events e.g. accidents)*  
  - **ROADWORK** *(roadworks)*  
@@ -120,9 +115,9 @@ The `entityTypes` parameter is a list of EntityType objects defining what data i
  - **WINTER_DEICING** *(deicing status of road segments)*  
  - **WINTER_CONDITION** *(condition of roadsegments in winter e.g. is the segment in risk of being slippery?)*  
   
-**NOTE:** TRAFFIC_DENSITY, WINTER_DEICING and WINTER_CONDITION can only be used in combination with `viewType = ViewType.MAP`  
+**NOTE:** `TRAFFIC_DENSITY`, `WINTER_DEICING` and `WINTER_CONDITION` can only be used in combination with `viewType = ViewType.MAP`  
   
-#### region  
+#### region (optional)
 The `region` parameter is a bounding box describing the area for which to get data. The `region` is accepted in two formats:  
   
  - `LatLngBounds` - If you are using Google Maps (from `google.android.gms.maps.model`)  
@@ -130,7 +125,7 @@ The `region` parameter is a bounding box describing the area for which to get da
   
 Omitting this parameter will return data for the entire region of Denmark.  
   
-#### zoom  
+#### zoom (optional)
 The parameter `zoom` is a Google-maps style zoom level describing in which resolution the geometrical information should be returned.  
   
 **NOTE:** This parameter is only relevant for `viewType = .MAP`  
@@ -142,13 +137,13 @@ The `viewType` parameter defines in which format the data should be returned. Da
  - **MAP** - Returns `MapEntity` objects *(contains geometrical information for a map representation of the data)*  
   
 #### apiKey  
-The `apiKey` parameter is required to get access to the available data.   
-It can be generated on The Danish Road Directorate's [website](https://nap.vd.dk/themes/811)  
+The `apiKey` parameter is required to get access to the available data. It can be generated on The Danish Road Directorate's [website](https://nap.vd.dk/themes/811)  
   
 #### onCompletion  
 The `onCompletion` parameter is a callback function for handling the result of the request. The result is return in the form of a `Feed.Result` object. The object can be an instance of one of the following extending classes:   
   
- - **Feed.Result.Success** *(contains a list of requested entities)*  
+ - **Feed.Result.Entities** *(contains a list of requested entities)*
+ - **Feed.Result.Entity** *(contains the requested entity)*  
  - **Feed.Result.Error** *(contains an Exception)*  
  - **Feed.Result.HttpError** *(contains an Exception and a status code)*  
   
