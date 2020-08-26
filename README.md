@@ -30,7 +30,7 @@ allprojects {
  repositories { ... maven { url 'https://jitpack.io' } }}  
   
 dependencies {  
- ... implementation 'com.github.vejdirektoratet:sdk-android:0.1.0'}  
+ ... implementation 'com.github.vejdirektoratet:sdk-android:1.0.1'}  
 ```  
   
 ### Configuration  
