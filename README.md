@@ -38,7 +38,7 @@ An API key is needed when requesting data through this SDK.
 To generate an API key you have to:  
   
  1. Create an account on the [website](https://nap.vd.dk/register) of The Danish Road Directorate.  
- 2. [Generate](https://nap.vd.dk/themes/811) the API key *(while being logged in to the account created in step 1)*  
+ 2. [Generate](https://nap.vd.dk/themes/1) the API key *(while being logged in to the account created in step 1)*  
   
 ## Getting started  
 ### Example of requesting data  
